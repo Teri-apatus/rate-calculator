@@ -1,0 +1,36 @@
+{
+    "name": "rate-calculator",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "serve": "webpack serve --open --mode development",
+        "build": "webpack --mode production",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "webpack --mode development"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "@babel/core": "^7.26.7",
+        "@babel/preset-env": "^7.26.7",
+        "babel-loader": "^9.2.1",
+        "css-loader": "^7.1.2",
+        "filemanager-webpack-plugin": "^8.0.0",
+        "html-webpack-plugin": "^5.6.3",
+        "mini-css-extract-plugin": "^2.9.2",
+        "postcss-loader": "^8.1.1",
+        "postcss-preset-env": "^10.1.3",
+        "pug": "^3.0.3",
+        "pug-loader": "^1.0.2",
+        "pug-plugin": "^6.0.0",
+        "sass": "^1.84.0",
+        "sass-loader": "^16.0.4",
+        "style-loader": "^4.0.0",
+        "ts-loader": "^9.5.2",
+        "typescript": "^5.7.3",
+        "webpack": "^5.97.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.0"
+    }
+}
