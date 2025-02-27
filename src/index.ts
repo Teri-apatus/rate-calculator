@@ -1,12 +1,20 @@
-import { text } from './app';
 import './main.scss';
+import { getLatestRates } from './api';
+import { mockData } from './mockData';
+import { select } from './constants';
 
-function component(text: string) {
-    const element = document.createElement('h1');
-    element.textContent = text;
-    return element;
+const selection = document.getElementById('selection');
+const result = getLatestRates('RUB');
+
+result
+    .then((response) => {
+        console.log(response);
+    })
+    .catch((error) => console.log(error));
+
+for (const rate in mockData.rates) {
+    const option = new Option(rate);
+    select.add(option);
 }
 
-document.body.prepend(component('Проект собран на Webpack'));
-
-console.log(text);
+selection.appendChild(select);
