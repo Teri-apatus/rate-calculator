@@ -1,3 +1,6 @@
-function calculateCurrencies(value: number, currency2: number) {
-    return (1 / currency2) * value;
+export function calculateCurrencies(
+    moneyAmount: number,
+    rate: number
+) {
+    return (1 / rate) * moneyAmount;
 }
