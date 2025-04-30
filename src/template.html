@@ -7,13 +7,15 @@
     <body>
         <main>
             <div class="container">
-                <form class="calc-form">
+                <h1>Конвертер валют</h1>
+                <form class="calc-form" name="calcForm">
                     <div class="calc-row">
                         <div class="text">Сумма</div>
                         <div class="f-right">
                             <input
-                                type="text"
-                                name="value"
+                                type="number"
+                                inputmode="decimal"
+                                name="moneyValue"
                                 value="1"
                                 class="money-input"
                             />
@@ -24,32 +26,52 @@
                         <div class="text">Направление перевода</div>
                         <div class="currency-selection f-right">
                             <div
-                                class="currency1 selection currency"
+                                class="baseCurrency selection currency"
                                 id="selection"
                             >
-                                <!-- <select name="currency-input" hidden>
-                                    <option>text</option>
-                                    <option>text2</option>
-                                    <option>text3</option>
-                                </select> -->
+                                <select
+                                    class="select-currencies"
+                                    id="selectBaseCurrencies"
+                                    name="baseCurrency"
+                                ></select>
                             </div>
                             <div class="switcher selection"></div>
                             <div
-                                class="currency2 selection currency"
-                            ></div>
+                                class="exchangeCurrency selection currency"
+                            >
+                                <select
+                                    class="select-currencies"
+                                    id="selectExchangeCurrencies"
+                                    name="exchangeCurrency"
+                                ></select>
+                            </div>
                         </div>
                     </div>
 
                     <div class="calc-row">
-                        <button class="calc-input">Рассчитать</button>
+                        <button class="calc-input" id="calcInput">
+                            Рассчитать
+                        </button>
                     </div>
 
                     <div class="output-container calc-row">
-                        <span class="result-input"></span>
-                        <span class="result-currency1"></span>
+                        <span
+                            class="result-input"
+                            id="outputBaseRate"
+                        ></span>
+                        <span
+                            class="result-baseCurrency"
+                            id="resultBaseCurrency"
+                        ></span>
                         <span>=</span>
-                        <span class="result-output"></span>
-                        <span class="result-currency2"></span>
+                        <span
+                            class="result-output"
+                            id="outputExchangeRate"
+                        ></span>
+                        <span
+                            class="result-exchangeCurrency"
+                            id="resultExchangeCurrency"
+                        ></span>
                     </div>
                 </form>
             </div>

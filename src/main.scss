@@ -6,6 +6,10 @@ body {
     font-weight: 400;
 }
 
+span {
+    margin: 0 5px;
+}
+
 .container {
     margin: 0 auto;
     width: 1000px;
@@ -15,7 +19,7 @@ body {
     width: 100%;
     height: 500px;
     background-color: #e8eaf3;
-    padding-top: 20px;
+    padding-top: 40px;
 }
 
 .calc-row {
@@ -37,6 +41,7 @@ body {
 .money-input {
     height: 40px;
     border: none;
+    padding-left: 20px;
 }
 
 .currency-selection {
@@ -45,15 +50,10 @@ body {
     flex-grow: 1;
 }
 
-.selection {
-    height: 40px;
-}
-
 .currency {
     position: relative;
     flex-basis: 45%;
     background-color: white;
-    cursor: pointer;
 }
 
 .currency::after {
@@ -64,10 +64,42 @@ body {
     border-color: #333 transparent transparent;
     border-width: 5px;
     position: absolute;
-    right: 11.5px;
+    right: 11px;
     top: 50%;
-    margin-top: -2.5px;
+    transform: translateY(-25%);
     pointer-events: none;
+}
+
+.select-currencies {
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    padding: 11px 20px;
+    border-color: #ddd;
+}
+
+.select-currencies:focus-visible {
+    outline: none;
+    border: 1px solid #b9b9b9;
+    background-color: rgb(245, 245, 245);
+}
+
+option:nth-of-type(odd) {
+    background: #fff;
+}
+
+option:checked {
+    font-weight: bold;
+}
+
+option span {
+    width: 100%;
+    height: 100%;
+}
+
+option span:hover {
+    background-color: burlywood;
+    color: aqua;
 }
 
 .switcher {
