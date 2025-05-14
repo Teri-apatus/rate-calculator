@@ -1,12 +1,8 @@
-import { text } from './app';
 import './main.scss';
+import { fillCurrencySelects } from './select';
+import { printResult } from './printResult';
 
-function component(text: string) {
-    const element = document.createElement('h1');
-    element.textContent = text;
-    return element;
-}
+// console.log('data', rate); // 15.853953
+// console.log(getLatestRatesFromAPI('RUB'));
 
-document.body.prepend(component('Проект собран на Webpack'));
-
-console.log(text);
+printResult();

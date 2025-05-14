@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
 module.exports = {
+    entry: path.join(__dirname, 'src', 'index.ts'),
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'index.[contenthash].js',
@@ -14,10 +15,19 @@ module.exports = {
         ),
         clean: true,
     },
-    entry: path.join(__dirname, 'src', 'index.ts'),
     devtool: 'inline-source-map',
     module: {
         rules: [
+            {
+                test: /\.svg$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: path.join(
+                        'icons',
+                        '[name].[contenthash][ext]'
+                    ),
+                },
+            },
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
@@ -32,20 +42,6 @@ module.exports = {
                     'sass-loader',
                 ],
             },
-            {
-                test: /\.(png|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
-            // {
-            //     test: /\.svg$/,
-            //     type: 'asset/resource',
-            //     generator: {
-            //         filename: path.join(
-            //             'icons',
-            //             '[name].[contenthash][ext]'
-            //         ),
-            //     },
-            // },
         ],
     },
     resolve: {
@@ -74,6 +70,7 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
         }),
+
         new webpack.HotModuleReplacementPlugin(),
     ],
 

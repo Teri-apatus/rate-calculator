@@ -2,23 +2,96 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Быстрый запуск Webpack</title>
+        <title>Конвертер валют</title>
     </head>
     <body>
-        <p>Файл создан плагином html-webpack-plugin</p>
-        <div class="logo-png">
-            <img
-                src="./images/image.png"
-                class="logo1"
-                alt="Загрузка PNG изображений с помощью Webpack"
-            />
-        </div>
-        <div class="logo-svg">
-            <img
-                src="./images/logo.svg"
-                class="logo2"
-                alt="Загрузка SVG изображений с помощью Webpack"
-            />
-        </div>
+        <main>
+            <div class="container">
+                <h1>Конвертер валют</h1>
+                <form class="calc-form" name="calcForm">
+                    <div class="calc-row">
+                        <div class="text">Сумма</div>
+                        <div class="f-right">
+                            <input
+                                type="number"
+                                inputmode="decimal"
+                                name="inputMoney"
+                                value="1"
+                                class="money-input"
+                                id="inputMoney"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="calc-row">
+                        <div class="text">Направление перевода</div>
+                        <div class="currency-selection f-right">
+                            <div
+                                class="baseCurrency selection currency"
+                                id="selection"
+                            >
+                                <select
+                                    class="select-currencies"
+                                    id="selectBaseCurrencies"
+                                    name="baseCurrency"
+                                ></select>
+                                <input
+                                    type="search"
+                                    name="search-base-currency"
+                                    class="input-currency"
+                                    id="inputCurrency"
+                                    placeholder="Поиск"
+                                />
+                            </div>
+                            <div class="switcher selection"></div>
+                            <div
+                                class="exchangeCurrency selection currency"
+                            >
+                                <select
+                                    class="select-currencies"
+                                    id="selectExchangeCurrencies"
+                                    name="exchangeCurrency"
+                                ></select>
+                                <input
+                                    type="search"
+                                    name="search-exchange-currency"
+                                    class="input-currency"
+                                    placeholder="Поиск"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calc-row button-container">
+                        <button class="calc-input" id="calcInput">
+                            Рассчитать
+                        </button>
+                    </div>
+
+                    <div
+                        class="output-container calc-row"
+                        id="outputContainer"
+                    >
+                        <span
+                            class="result-input"
+                            id="outputBaseRate"
+                        ></span>
+                        <span
+                            class="result-baseCurrency"
+                            id="resultBaseCurrency"
+                        ></span>
+                        <span>=</span>
+                        <span
+                            class="result-output"
+                            id="outputExchangeRate"
+                        ></span>
+                        <span
+                            class="result-exchangeCurrency"
+                            id="resultExchangeCurrency"
+                        ></span>
+                    </div>
+                </form>
+            </div>
+        </main>
     </body>
 </html>
