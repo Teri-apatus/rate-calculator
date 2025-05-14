@@ -25,7 +25,7 @@ span {
 .calc-row {
     display: flex;
     flex-direction: row;
-    padding: 0 15px 20px;
+    padding: 0 20px 35px;
 }
 
 .text {
@@ -97,26 +97,35 @@ option span {
     height: 100%;
 }
 
-option span:hover {
-    background-color: burlywood;
-    color: aqua;
+.input-currency {
+    width: 100%;
+    height: 37px;
+    padding-left: 20px;
+    display: none;
 }
 
 .switcher {
     flex-basis: 10%;
 }
 
+.button-container {
+    padding: 30px;
+    background-color: #c6c9d5;
+}
+
 .calc-input {
     margin: 0 auto;
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 15px 20px;
     text-transform: uppercase;
     background-color: #3498db;
     color: white;
     font-weight: bold;
-    border: 2px solid #3498db;
+    border: none;
 }
 
 .output-container {
     justify-content: center;
+    padding-top: 30px;
+    opacity: 0;
 }

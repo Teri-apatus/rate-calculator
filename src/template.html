@@ -15,9 +15,10 @@
                             <input
                                 type="number"
                                 inputmode="decimal"
-                                name="moneyValue"
+                                name="inputMoney"
                                 value="1"
                                 class="money-input"
+                                id="inputMoney"
                             />
                         </div>
                     </div>
@@ -34,6 +35,13 @@
                                     id="selectBaseCurrencies"
                                     name="baseCurrency"
                                 ></select>
+                                <input
+                                    type="search"
+                                    name="search-base-currency"
+                                    class="input-currency"
+                                    id="inputCurrency"
+                                    placeholder="Поиск"
+                                />
                             </div>
                             <div class="switcher selection"></div>
                             <div
@@ -44,17 +52,26 @@
                                     id="selectExchangeCurrencies"
                                     name="exchangeCurrency"
                                 ></select>
+                                <input
+                                    type="search"
+                                    name="search-exchange-currency"
+                                    class="input-currency"
+                                    placeholder="Поиск"
+                                />
                             </div>
                         </div>
                     </div>
 
-                    <div class="calc-row">
+                    <div class="calc-row button-container">
                         <button class="calc-input" id="calcInput">
                             Рассчитать
                         </button>
                     </div>
 
-                    <div class="output-container calc-row">
+                    <div
+                        class="output-container calc-row"
+                        id="outputContainer"
+                    >
                         <span
                             class="result-input"
                             id="outputBaseRate"

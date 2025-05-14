@@ -3,7 +3,7 @@ export const mockData = {
     terms: 'https://fxfeed.io/terms',
     privacy: 'https://fxfeed.io/privacy',
     timestamp: 1740123372,
-    date: '2025-04-30T07:36:12Z',
+    date: '2025-05-08T07:36:12Z',
     base: 'RUB',
     rates: {
         AED: 0.041417,

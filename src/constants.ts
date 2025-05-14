@@ -162,4 +162,4 @@ export const CURRENCIES = {
     ZAR: 'ZAR',
     ZMW: 'ZMW',
     ZWL: 'ZWL',
-};
+} as const;

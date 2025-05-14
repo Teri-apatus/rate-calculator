@@ -1,16 +1,17 @@
 import { LOCAL_STORAGE_KEY_CURRENCY } from './constants';
+import { isFreshRates } from './freshRates';
 import {
     Currencies,
     LocalStorageCurrencyType,
     RateResponse,
 } from './type';
 
-export function saveToLocalStorage(apiResponse: RateResponse) {
-    let ratesInLocalStorage: LocalStorageCurrencyType | null = null;
-    const baseCurrency: Currencies = apiResponse.base;
-
-    const castDataFromApi: LocalStorageCurrencyType =
-        mapFromAPIToLocalStorage(apiResponse);
+export function saveToLocalStorage(
+    castDataFromApi: LocalStorageCurrencyType,
+    baseCurrency: Currencies
+) {
+    let ratesInLocalStorage: LocalStorageCurrencyType | null =
+        JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_CURRENCY));
 
     const dataToSave: LocalStorageCurrencyType =
         getDataToSave(castDataFromApi);
@@ -20,23 +21,12 @@ export function saveToLocalStorage(apiResponse: RateResponse) {
         JSON.stringify(dataToSave)
     );
 
-    function mapFromAPIToLocalStorage(
-        apiResponse: RateResponse
-    ): LocalStorageCurrencyType {
-        return {
-            date: new Date(apiResponse.date).getTime(),
-            baseCurrencies: {
-                [apiResponse.base]: apiResponse.rates,
-            },
-        };
-    }
-
     function isNeedToCombineWithOldData(
         castDataFromApi: LocalStorageCurrencyType,
         ratesInLocalStorage: LocalStorageCurrencyType
     ): boolean {
         if (ratesInLocalStorage !== null) {
-            if (castDataFromApi.date === ratesInLocalStorage.date) {
+            if (isFreshRates(ratesInLocalStorage.date)) {
                 if (
                     castDataFromApi.baseCurrencies[baseCurrency] !==
                     ratesInLocalStorage.baseCurrencies[baseCurrency]
@@ -45,6 +35,7 @@ export function saveToLocalStorage(apiResponse: RateResponse) {
                 }
             }
         }
+
         return false;
     }
 
@@ -59,6 +50,7 @@ export function saveToLocalStorage(apiResponse: RateResponse) {
                 ...dataFromApi.baseCurrencies,
             },
         };
+
         return result;
     }
 
@@ -76,6 +68,18 @@ export function saveToLocalStorage(apiResponse: RateResponse) {
                 ratesInLocalStorage
             );
         }
+
         return castDataFromApi;
     }
+}
+
+export function mapFromAPIToLocalStorage(
+    apiResponse: RateResponse
+): LocalStorageCurrencyType {
+    return {
+        date: new Date(apiResponse.date).getTime(),
+        baseCurrencies: {
+            [apiResponse.base]: apiResponse.rates,
+        },
+    };
 }

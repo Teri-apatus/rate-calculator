@@ -8,5 +8,6 @@ export function isFreshRates(localStorageDate: number) {
     ) {
         return false;
     }
+
     return true;
 }

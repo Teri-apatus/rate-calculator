@@ -1,7 +1,10 @@
 import { getLatestRatesFromAPI } from './api';
 import { LOCAL_STORAGE_KEY_CURRENCY } from './constants';
 import { isFreshRates } from './freshRates';
-import { saveToLocalStorage } from './saveToLocalStorage';
+import {
+    mapFromAPIToLocalStorage,
+    saveToLocalStorage,
+} from './saveToLocalStorage';
 import {
     Currencies,
     LocalStorageCurrencyType,
@@ -11,7 +14,39 @@ import {
 export function getRates(
     baseCurrency: Currencies,
     exchangeCurrency: Currencies
-): RateValue {
+): Promise<RateValue> {
+    let ratesInLocalStorage: LocalStorageCurrencyType =
+        getRatesFromLocalStorage();
+
+    const isNeedLoad =
+        !ratesInLocalStorage ||
+        !isFreshRates(ratesInLocalStorage.date) ||
+        !ratesInLocalStorage.baseCurrencies[baseCurrency];
+
+    if (isNeedLoad) {
+        return getLatestRatesFromAPI(baseCurrency).then(
+            (apiResponse) => {
+                const apiResponsePreparedForSavingToLS =
+                    mapFromAPIToLocalStorage(apiResponse);
+                saveToLocalStorage(
+                    apiResponsePreparedForSavingToLS,
+                    baseCurrency
+                );
+
+                return apiResponsePreparedForSavingToLS
+                    .baseCurrencies[baseCurrency][exchangeCurrency];
+            }
+        );
+    }
+
+    return Promise.resolve<RateValue>(
+        ratesInLocalStorage.baseCurrencies[baseCurrency][
+            exchangeCurrency
+        ]
+    );
+}
+
+function getRatesFromLocalStorage(): LocalStorageCurrencyType {
     let ratesInLocalStorage: LocalStorageCurrencyType | null = null;
 
     try {
@@ -22,19 +57,8 @@ export function getRates(
         console.log(e);
     }
 
-    const isNeedLoad =
-        !ratesInLocalStorage ||
-        !isFreshRates(ratesInLocalStorage.date) ||
-        !ratesInLocalStorage.baseCurrencies[baseCurrency];
-
-    if (isNeedLoad) {
-        getLatestRatesFromAPI(baseCurrency).then((apiResponse) => {
-            console.log(apiResponse);
-            saveToLocalStorage(apiResponse);
-        });
-    } else {
-        return ratesInLocalStorage.baseCurrencies[baseCurrency][
-            exchangeCurrency
-        ];
-    }
+    return ratesInLocalStorage;
+    // .baseCurrencies[baseCurrency][
+    //     exchangeCurrency
+    // ];
 }
