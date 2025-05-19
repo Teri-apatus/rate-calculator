@@ -6,25 +6,38 @@ import { Currencies } from './type';
 
 export function printResult() {
     const calcButtonNode = document.getElementById('calcInput');
+
     const baseCurrencySelectNode = <HTMLSelectElement>(
         document.getElementById('selectBaseCurrencies')
     );
     const exchangeCurrencySelectNode = <HTMLSelectElement>(
         document.getElementById('selectExchangeCurrencies')
     );
+
     const outputBaseCurrencyNode = document.getElementById(
-        'resultBaseCurrency'
+        'outputBaseCurrency'
     );
     const outputExchangeCurrencyNode = document.getElementById(
-        'resultExchangeCurrency'
+        'outputExchangeCurrency'
     );
+
+    const outputUnitBaseCurrencyNode = document.getElementById(
+        'outputUnitBaseCurrency'
+    );
+    const outputUnitExchangeCurrencyNode = document.getElementById(
+        'outputUnitExchangeCurrency'
+    );
+
     const outputBaseRateNode =
         document.getElementById('outputBaseRate');
     const outputExchangeRateNode = document.getElementById(
         'outputExchangeRate'
     );
+    const outputUnitExchangeRateNode = document.getElementById(
+        'outputUnitExchangeRate'
+    );
     const inputMoneyValueNode = <HTMLInputElement>(
-        document.getElementById('inputMoney')
+        document.getElementById('inputBaseRate')
     );
 
     fillCurrencySelects([
@@ -43,10 +56,12 @@ export function printResult() {
         );
         addCurrenciesInOutput(
             outputBaseCurrencyNode,
+            outputUnitBaseCurrencyNode,
             baseCurrencySelectNode
         );
         addCurrenciesInOutput(
             outputExchangeCurrencyNode,
+            outputUnitExchangeCurrencyNode,
             exchangeCurrencySelectNode
         );
 
@@ -54,6 +69,7 @@ export function printResult() {
             inputRate: inputMoneyValueNode,
             outputBaseRate: outputBaseRateNode,
             outputExchangeRate: outputExchangeRateNode,
+            outputUnitExchangeRate: outputUnitExchangeRateNode,
             inputBaseCurrency,
             inputExchangeCurrency,
         });
@@ -65,12 +81,14 @@ function addRatesInOutput({
     inputRate,
     outputBaseRate,
     outputExchangeRate,
+    outputUnitExchangeRate,
     inputBaseCurrency,
     inputExchangeCurrency,
 }: {
     inputRate: HTMLInputElement;
     outputBaseRate: HTMLElement;
     outputExchangeRate: HTMLElement;
+    outputUnitExchangeRate: HTMLElement;
     inputBaseCurrency: Currencies;
     inputExchangeCurrency: Currencies;
 }) {
@@ -83,20 +101,25 @@ function addRatesInOutput({
             );
 
             const exchangeValue = calculateCurrencies(
-                rate,
-                moneyAmountValue
+                moneyAmountValue,
+                rate
             );
+            const exchangeUnitValue = calculateCurrencies(1, rate);
             outputExchangeRate.textContent = String(exchangeValue);
+            outputUnitExchangeRate.textContent =
+                String(exchangeUnitValue);
         }
     );
 }
 
 function addCurrenciesInOutput(
     outputCurrency: HTMLElement,
+    outputUnitCurrency: HTMLElement,
     selectCurrency: HTMLSelectElement
 ) {
     outputCurrency.textContent =
         getCurrencyValueFromSelect(selectCurrency);
+    outputUnitCurrency.textContent = outputCurrency.textContent;
 }
 
 function getCurrencyValueFromSelect(

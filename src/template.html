@@ -7,7 +7,7 @@
     <body>
         <main>
             <div class="container">
-                <h1>Конвертер валют</h1>
+                <h1>конвертер валют</h1>
                 <form class="calc-form" name="calcForm">
                     <div class="calc-row">
                         <div class="text">Сумма</div>
@@ -15,10 +15,9 @@
                             <input
                                 type="number"
                                 inputmode="decimal"
-                                name="inputMoney"
                                 value="1"
-                                class="money-input"
-                                id="inputMoney"
+                                class="input-base-rate"
+                                id="inputBaseRate"
                             />
                         </div>
                     </div>
@@ -63,32 +62,35 @@
                     </div>
 
                     <div class="calc-row button-container">
-                        <button class="calc-input" id="calcInput">
+                        <button class="calc-button" id="calcInput">
                             Рассчитать
                         </button>
                     </div>
 
                     <div
-                        class="output-container calc-row"
                         id="outputContainer"
+                        class="output-container"
                     >
-                        <span
-                            class="result-input"
-                            id="outputBaseRate"
-                        ></span>
-                        <span
-                            class="result-baseCurrency"
-                            id="resultBaseCurrency"
-                        ></span>
-                        <span>=</span>
-                        <span
-                            class="result-output"
-                            id="outputExchangeRate"
-                        ></span>
-                        <span
-                            class="result-exchangeCurrency"
-                            id="resultExchangeCurrency"
-                        ></span>
+                        <div
+                            class="output-calculate calc-row result-container"
+                        >
+                            <span id="outputBaseRate"></span>
+                            <span id="outputBaseCurrency"></span>
+                            <span>=</span>
+                            <span id="outputExchangeRate"></span>
+                            <span id="outputExchangeCurrency"></span>
+                        </div>
+                        <div
+                            class="output-unit calc-row result-container"
+                        >
+                            <span>1</span>
+                            <span id="outputUnitBaseCurrency"></span>
+                            <span>=</span>
+                            <span id="outputUnitExchangeRate"></span>
+                            <span
+                                id="outputUnitExchangeCurrency"
+                            ></span>
+                        </div>
                     </div>
                 </form>
             </div>
