@@ -3,15 +3,16 @@ import { CURRENCIES } from './constants';
 import { getRates } from './getRates';
 import { fillCurrencySelects } from './select';
 import { Currencies } from './type';
+import swapArrows from './images/icons/swap-arrows.svg';
 
 export function printResult() {
     const calcButtonNode = document.getElementById('calcInput');
 
-    const baseCurrencySelectNode = <HTMLSelectElement>(
-        document.getElementById('selectBaseCurrencies')
+    const baseCurrencySelectNode = document.getElementById(
+        'selectBaseCurrencies'
     );
-    const exchangeCurrencySelectNode = <HTMLSelectElement>(
-        document.getElementById('selectExchangeCurrencies')
+    const exchangeCurrencySelectNode = document.getElementById(
+        'selectExchangeCurrencies'
     );
 
     const outputBaseCurrencyNode = document.getElementById(
@@ -39,6 +40,8 @@ export function printResult() {
     const inputMoneyValueNode = <HTMLInputElement>(
         document.getElementById('inputBaseRate')
     );
+
+    addSwapSvg();
 
     fillCurrencySelects([
         baseCurrencySelectNode,
@@ -115,17 +118,15 @@ function addRatesInOutput({
 function addCurrenciesInOutput(
     outputCurrency: HTMLElement,
     outputUnitCurrency: HTMLElement,
-    selectCurrency: HTMLSelectElement
+    selectCurrency: HTMLElement
 ) {
     outputCurrency.textContent =
         getCurrencyValueFromSelect(selectCurrency);
     outputUnitCurrency.textContent = outputCurrency.textContent;
 }
 
-function getCurrencyValueFromSelect(
-    select: HTMLSelectElement
-): Currencies {
-    const currencyValue = select.selectedOptions[0].value;
+function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
+    const currencyValue = select.id;
     if (currencyValue in CURRENCIES) {
         return currencyValue as Currencies;
     }
@@ -139,4 +140,11 @@ function showOutput() {
     if ((outputContainerNode.style.opacity = '0')) {
         outputContainerNode.style.opacity = '1';
     }
+}
+
+function addSwapSvg() {
+    const imgNode = <HTMLImageElement>(
+        document.getElementById('swapArrows')
+    );
+    imgNode.src = swapArrows;
 }

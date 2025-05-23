@@ -25,38 +25,46 @@
                     <div class="calc-row">
                         <div class="text">Направление перевода</div>
                         <div class="currency-selection f-right">
-                            <div
-                                class="baseCurrency selection currency"
-                                id="selection"
-                            >
-                                <select
-                                    class="select-currencies"
-                                    id="selectBaseCurrencies"
-                                    name="baseCurrency"
-                                ></select>
-                                <input
-                                    type="search"
-                                    name="search-base-currency"
-                                    class="input-currency"
-                                    id="inputCurrency"
-                                    placeholder="Поиск"
-                                />
+                            <div class="select-wrapper">
+                                <div
+                                    class="base-currency selection currency"
+                                    id="selection"
+                                >
+                                    <input
+                                        type="search"
+                                        name="search-base-currency"
+                                        class="search-input"
+                                        id="inputCurrency"
+                                        placeholder="Поиск"
+                                    />
+                                    <div
+                                        class="select-currencies"
+                                        id="selectBaseCurrencies"
+                                    ></div>
+                                </div>
                             </div>
-                            <div class="switcher selection"></div>
-                            <div
-                                class="exchangeCurrency selection currency"
-                            >
-                                <select
-                                    class="select-currencies"
-                                    id="selectExchangeCurrencies"
-                                    name="exchangeCurrency"
-                                ></select>
-                                <input
-                                    type="search"
-                                    name="search-exchange-currency"
-                                    class="input-currency"
-                                    placeholder="Поиск"
+                            <button class="swap-button selection">
+                                <img
+                                    id="swapArrows"
+                                    alt="swap arrows"
+                                    width="10px"
                                 />
+                            </button>
+                            <div class="select-wrapper">
+                                <div
+                                    class="exchange-currency selection currency"
+                                >
+                                    <input
+                                        type="search"
+                                        name="search-exchange-currency"
+                                        class="search-input"
+                                        placeholder="Поиск"
+                                    />
+                                    <div
+                                        class="select-currencies"
+                                        id="selectExchangeCurrencies"
+                                    ></div>
+                                </div>
                             </div>
                         </div>
                     </div>
