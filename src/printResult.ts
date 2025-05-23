@@ -4,6 +4,7 @@ import { getRates } from './getRates';
 import { fillCurrencySelects } from './select';
 import { Currencies } from './type';
 import swapArrows from './images/icons/swap-arrows.svg';
+import { searchFilter } from './search';
 
 export function printResult() {
     const calcButtonNode = document.getElementById('calcInput');
@@ -41,7 +42,15 @@ export function printResult() {
         document.getElementById('inputBaseRate')
     );
 
+    const searchBaseInputNode = <HTMLInputElement>(
+        document.getElementById('searchBaseCurrency')
+    );
+    const searchExchangeInputNode = <HTMLInputElement>(
+        document.getElementById('searchExchangeCurrency')
+    );
+
     addSwapSvg();
+    searchFilter(searchBaseInputNode, baseCurrencySelectNode);
 
     fillCurrencySelects([
         baseCurrencySelectNode,

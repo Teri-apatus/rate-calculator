@@ -24,15 +24,14 @@ export function fillCurrencySelects(selectsNode: HTMLElement[]) {
     });
 }
 
-function addOptionsToSelect(select: HTMLElement) {
+export function addOptionsToSelect(select: HTMLElement) {
     for (const [currency, value] of Object.entries(CURRENCIES)) {
-        const svgName: string = currency.toLocaleLowerCase();
+        const svgName: string = currency.toLowerCase();
         const option = document.createElement('div');
-
         const spanText = document.createElement('span');
 
         spanText.innerHTML = `${currency} - ${[value]}`;
-
+        option.append(spanText);
         select.append(option);
         option.classList.add('option-currency');
         option.setAttribute('id', currency);
@@ -43,16 +42,39 @@ function addOptionsToSelect(select: HTMLElement) {
                 flagImg.setAttribute('width', '15px');
                 const iconPath = svgContext(`./${svgName}.svg`);
                 flagImg.src = iconPath;
-                option.append(flagImg);
+                option.prepend(flagImg);
             }
         } catch (error) {
-            console.warn(`Flag SVG not found for ${svgName}`);
+            console.warn(error, `Flag SVG not found for ${svgName}`);
         }
-        option.append(spanText);
     }
+    getHeightSelect(select);
 }
 
 function hasFlag(currency: Currencies): boolean {
-    const regexp = /ang|gtq|xaf|xcd|xof|xpf/i;
+    const regexp = /ang|xaf|xcd|xof|xpf/i;
     return !regexp.test(currency);
+}
+
+export function getHeightSelect(select: HTMLElement) {
+    const optionsAmount = select.childElementCount;
+    const MAX_VISIBLE_OPTIONS = 6;
+
+    const heightOption =
+        select.firstElementChild.getBoundingClientRect().height;
+    const container = select.parentElement;
+
+    if (optionsAmount >= MAX_VISIBLE_OPTIONS) {
+        container.style.height = `${
+            heightOption * (MAX_VISIBLE_OPTIONS + 2)
+        }px`;
+        select.style.height = `${
+            heightOption * MAX_VISIBLE_OPTIONS
+        }px`;
+    } else {
+        container.style.height = `${
+            heightOption * (optionsAmount + 2)
+        }px`;
+        select.style.height = `${heightOption * optionsAmount}px`;
+    }
 }
