@@ -1,9 +1,38 @@
+@font-face {
+    font-family: 'Overpass';
+    src: url('./fonts/Overpass-Regular.otf') format('opentype'),
+        url('./fonts/Overpass-Regular.woff2') format('woff2'),
+        url('./fonts/Overpass-Regular.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'YesEva';
+    src: url('./fonts/YesevaOne-Regular.otf') format('opentype'),
+        url('./fonts/YesevaOne-Regular.woff') format('woff'),
+        url('./fonts/YesevaOne-Regular.woff2') format('woff2'),
+        url('./fonts/YesevaOne-Regular.ttf') format('ttf');
+}
+
+* {
+    font-family: 'Overpass', sans-serif;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+*:focus-visible {
+    outline-offset: -2px;
+    outline: 2px solid #42519f;
+}
+
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-        'Helvetica Neue', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
+    background-color: #8d8f9a;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 span {
@@ -11,49 +40,82 @@ span {
 }
 
 .container {
-    margin: 0 auto;
-    width: 1000px;
+    width: 70vw;
+    max-width: 1100px;
+    height: 95vh;
+    max-height: 800px;
+
+    border: 20px solid #171a26;
+    border-radius: 15px;
+    background: linear-gradient(#b1b7d1 50%, #98a0c3 50%);
+    box-shadow: 76px 76px 152px #595b67, -76px -76px 152px #7b7c86,
+        inset 0px 0px 12px 3px #171a27;
+}
+
+h1 {
+    font-family: 'YesEva', serif;
+    font-size: 65px;
+    margin: 60px auto;
+    text-align: center;
+    color: #42519f;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: normal;
 }
 
 .calc-form {
     width: 100%;
-    height: 500px;
-    background-color: #e8eaf3;
-    padding-top: 40px;
+    height: 510px;
+    margin-top: 80px;
 }
 
 .calc-row {
     display: flex;
-    flex-direction: row;
-    padding: 0 20px 35px;
+    justify-content: center;
+    margin: 0 auto;
+    padding-bottom: 35px;
 }
 
 .text {
     text-align: right;
     padding-top: 10px;
-    width: 33%;
+    flex-basis: 190px;
+    color: #42519f;
+    font-weight: normal;
 }
 
 .f-right {
-    margin-left: 50px;
+    margin-left: 20px;
+    flex-basis: 65%;
 }
 
-.money-input {
+.input-base-rate {
     height: 40px;
     border: none;
     padding-left: 20px;
+    border-radius: 5px;
 }
 
 .currency-selection {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+}
+
+.select-wrapper {
+    position: relative;
     flex-grow: 1;
 }
 
 .currency {
-    position: relative;
-    flex-basis: 45%;
-    background-color: white;
+    position: absolute;
+    background-color: #f2f3f7;
+    height: 340px;
+    border-radius: 5px;
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
 }
 
 .currency::after {
@@ -61,71 +123,119 @@ span {
     height: 0;
     width: 0;
     border-style: solid;
-    border-color: #333 transparent transparent;
+    border-color: #292d41 transparent transparent;
     border-width: 5px;
     position: absolute;
     right: 11px;
-    top: 50%;
+    top: 20px;
     transform: translateY(-25%);
     pointer-events: none;
 }
 
 .select-currencies {
+    position: relative;
+    top: 80px;
     width: 100%;
     cursor: pointer;
-    appearance: none;
-    padding: 11px 20px;
-    border-color: #ddd;
+    height: 260px;
+    font-size: 14px;
+    overflow-y: scroll;
+    scrollbar-color: #98a0c3 #d8dbe8;
 }
 
 .select-currencies:focus-visible {
-    outline: none;
-    border: 1px solid #b9b9b9;
     background-color: rgb(245, 245, 245);
 }
 
-option:nth-of-type(odd) {
-    background: #fff;
-}
-
-option:checked {
-    font-weight: bold;
-}
-
-option span {
+.search-input {
+    position: absolute;
+    top: 40px;
+    background-color: inherit;
     width: 100%;
-    height: 100%;
-}
-
-.input-currency {
-    width: 100%;
-    height: 37px;
+    height: 40px;
     padding-left: 20px;
-    display: none;
+    border-width: 1px;
+    border-color: #d0d4e7 transparent;
 }
 
-.switcher {
-    flex-basis: 10%;
+.search-input:focus-visible {
+    border: none;
+}
+
+.option-currency {
+    font-size: 14px;
+    height: 40px;
+    border-bottom: 1px solid #e5e7f0;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.option-currency:hover {
+    background-color: #e5e7f0;
+}
+
+.option-currency span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 13px;
+}
+
+.swap-button {
+    flex-basis: 8%;
+    border: none;
+    background-color: transparent;
 }
 
 .button-container {
-    padding: 30px;
-    background-color: #c6c9d5;
+    padding: 45px 0;
 }
 
-.calc-input {
+.calc-button {
     margin: 0 auto;
     cursor: pointer;
-    padding: 15px 20px;
-    text-transform: uppercase;
-    background-color: #3498db;
-    color: white;
+    padding: 20px 35px;
+    text-transform: lowercase;
+    color: #d8dbe8;
+    font-family: 'Yeseva', serif;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     border: none;
+    background-color: #42519f;
+    border-radius: 10px;
+    box-shadow: 7px 7px 24px #676d85, -7px -7px 24px #c9d3ff;
+}
+
+.calc-button:hover {
+    transform: scale(101%);
+    filter: brightness(1.1);
+}
+
+.calc-button:active {
+    background: linear-gradient(145deg, #323d77, #5365c7);
+    box-shadow: inset 7px 7px 24px #2e396f,
+        inset -7px -7px 24px #5669cf, 1px 1px 15px #676d85,
+        -1px -1px 15px #c9d3ff;
 }
 
 .output-container {
     justify-content: center;
-    padding-top: 30px;
+    margin-top: 50px;
     opacity: 0;
+    border-left: 1px solid #42519f;
+}
+
+.result-container {
+    color: #42519f;
+}
+
+.output-calculate span {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.output-unit {
+    font-size: 17px;
 }

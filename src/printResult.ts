@@ -3,29 +3,45 @@ import { CURRENCIES } from './constants';
 import { getRates } from './getRates';
 import { fillCurrencySelects } from './select';
 import { Currencies } from './type';
+import swapArrows from './images/icons/swap-arrows.svg';
 
 export function printResult() {
     const calcButtonNode = document.getElementById('calcInput');
-    const baseCurrencySelectNode = <HTMLSelectElement>(
-        document.getElementById('selectBaseCurrencies')
+
+    const baseCurrencySelectNode = document.getElementById(
+        'selectBaseCurrencies'
     );
-    const exchangeCurrencySelectNode = <HTMLSelectElement>(
-        document.getElementById('selectExchangeCurrencies')
+    const exchangeCurrencySelectNode = document.getElementById(
+        'selectExchangeCurrencies'
     );
+
     const outputBaseCurrencyNode = document.getElementById(
-        'resultBaseCurrency'
+        'outputBaseCurrency'
     );
     const outputExchangeCurrencyNode = document.getElementById(
-        'resultExchangeCurrency'
+        'outputExchangeCurrency'
     );
+
+    const outputUnitBaseCurrencyNode = document.getElementById(
+        'outputUnitBaseCurrency'
+    );
+    const outputUnitExchangeCurrencyNode = document.getElementById(
+        'outputUnitExchangeCurrency'
+    );
+
     const outputBaseRateNode =
         document.getElementById('outputBaseRate');
     const outputExchangeRateNode = document.getElementById(
         'outputExchangeRate'
     );
-    const inputMoneyValueNode = <HTMLInputElement>(
-        document.getElementById('inputMoney')
+    const outputUnitExchangeRateNode = document.getElementById(
+        'outputUnitExchangeRate'
     );
+    const inputMoneyValueNode = <HTMLInputElement>(
+        document.getElementById('inputBaseRate')
+    );
+
+    addSwapSvg();
 
     fillCurrencySelects([
         baseCurrencySelectNode,
@@ -43,10 +59,12 @@ export function printResult() {
         );
         addCurrenciesInOutput(
             outputBaseCurrencyNode,
+            outputUnitBaseCurrencyNode,
             baseCurrencySelectNode
         );
         addCurrenciesInOutput(
             outputExchangeCurrencyNode,
+            outputUnitExchangeCurrencyNode,
             exchangeCurrencySelectNode
         );
 
@@ -54,6 +72,7 @@ export function printResult() {
             inputRate: inputMoneyValueNode,
             outputBaseRate: outputBaseRateNode,
             outputExchangeRate: outputExchangeRateNode,
+            outputUnitExchangeRate: outputUnitExchangeRateNode,
             inputBaseCurrency,
             inputExchangeCurrency,
         });
@@ -65,12 +84,14 @@ function addRatesInOutput({
     inputRate,
     outputBaseRate,
     outputExchangeRate,
+    outputUnitExchangeRate,
     inputBaseCurrency,
     inputExchangeCurrency,
 }: {
     inputRate: HTMLInputElement;
     outputBaseRate: HTMLElement;
     outputExchangeRate: HTMLElement;
+    outputUnitExchangeRate: HTMLElement;
     inputBaseCurrency: Currencies;
     inputExchangeCurrency: Currencies;
 }) {
@@ -83,26 +104,29 @@ function addRatesInOutput({
             );
 
             const exchangeValue = calculateCurrencies(
-                rate,
-                moneyAmountValue
+                moneyAmountValue,
+                rate
             );
+            const exchangeUnitValue = calculateCurrencies(1, rate);
             outputExchangeRate.textContent = String(exchangeValue);
+            outputUnitExchangeRate.textContent =
+                String(exchangeUnitValue);
         }
     );
 }
 
 function addCurrenciesInOutput(
     outputCurrency: HTMLElement,
-    selectCurrency: HTMLSelectElement
+    outputUnitCurrency: HTMLElement,
+    selectCurrency: HTMLElement
 ) {
     outputCurrency.textContent =
         getCurrencyValueFromSelect(selectCurrency);
+    outputUnitCurrency.textContent = outputCurrency.textContent;
 }
 
-function getCurrencyValueFromSelect(
-    select: HTMLSelectElement
-): Currencies {
-    const currencyValue = select.selectedOptions[0].value;
+function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
+    const currencyValue = select.id;
     if (currencyValue in CURRENCIES) {
         return currencyValue as Currencies;
     }
@@ -116,4 +140,11 @@ function showOutput() {
     if ((outputContainerNode.style.opacity = '0')) {
         outputContainerNode.style.opacity = '1';
     }
+}
+
+function addSwapSvg() {
+    const imgNode = <HTMLImageElement>(
+        document.getElementById('swapArrows')
+    );
+    imgNode.src = swapArrows;
 }

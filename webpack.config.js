@@ -9,10 +9,6 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'index.[contenthash].js',
-        assetModuleFilename: path.join(
-            'images',
-            '[name].[contenthash][ext]'
-        ),
         clean: true,
     },
     devtool: 'inline-source-map',
@@ -22,10 +18,8 @@ module.exports = {
                 test: /\.svg$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: path.join(
-                        'icons',
-                        '[name].[contenthash][ext]'
-                    ),
+                    filename:
+                        'images/icons/[name].[contenthash][ext]',
                 },
             },
             {
@@ -42,6 +36,14 @@ module.exports = {
                     'sass-loader',
                 ],
             },
+
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'fonts/[name].[contenthash][ext]',
+                },
+            },
         ],
     },
     resolve: {
@@ -54,15 +56,24 @@ module.exports = {
         }),
         new FileManagerPlugin({
             events: {
-                // onStart: {
-                //     delete: ['dist'],
-                // },
                 onEnd: {
                     copy: [
                         {
                             source: path.join('src', 'static'),
                             destination: 'dist',
                         },
+                        // {
+                        //     source: path.join(
+                        //         'src',
+                        //         'images',
+                        //         'icons'
+                        //     ),
+                        //     destination: path.join(
+                        //         'dist',
+                        //         'images',
+                        //         'icons'
+                        //     ),
+                        // },
                     ],
                 },
             },
