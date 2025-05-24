@@ -1,7 +1,7 @@
 import { CURRENCIES } from './constants';
 import { addOptionsToSelect } from './select';
 
-export function searchFilter(
+export function getCurrenciesBySearch(
     searchInputNode: HTMLInputElement,
     selectCurrenciesNode: HTMLElement
 ) {
@@ -11,11 +11,14 @@ export function searchFilter(
 
     searchInputNode.addEventListener('input', () => {
         selectCurrenciesNode.style.display = 'none';
-        filterOptions(searchInputNode, select);
+        filterCurrencies(searchInputNode, select);
     });
 }
 
-function filterOptions(input: HTMLInputElement, select: HTMLElement) {
+function filterCurrencies(
+    input: HTMLInputElement,
+    select: HTMLElement
+) {
     const filteredCurrencies = Object.fromEntries(
         Object.entries(CURRENCIES).filter((currency) => {
             while (select.firstChild) {

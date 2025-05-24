@@ -61,23 +61,11 @@ function hasFlag(currency: Currencies): boolean {
 
 export function getHeightSelect(select: HTMLElement) {
     const optionsAmount = select.childElementCount;
-    const MAX_VISIBLE_OPTIONS = 6;
-
     const heightOption =
         select.firstElementChild.getBoundingClientRect().height;
     const container = select.parentElement;
 
-    if (optionsAmount >= MAX_VISIBLE_OPTIONS) {
-        container.style.height = `${
-            heightOption * (MAX_VISIBLE_OPTIONS + 2)
-        }px`;
-        select.style.height = `${
-            heightOption * MAX_VISIBLE_OPTIONS
-        }px`;
-    } else {
-        container.style.height = `${
-            heightOption * (optionsAmount + 2)
-        }px`;
-        select.style.height = `${heightOption * optionsAmount}px`;
-    }
+    container.style.height = `${
+        heightOption * (optionsAmount + 2)
+    }px`;
 }
