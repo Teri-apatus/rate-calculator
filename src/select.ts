@@ -20,17 +20,20 @@ const svgContext = svgRequire.context(
 
 export function fillCurrencySelects(selectsNode: HTMLElement[]) {
     selectsNode.forEach((select) => {
-        addOptionsToSelect(select);
+        addOptionsToSelect(select, CURRENCIES);
     });
 }
 
-export function addOptionsToSelect(select: HTMLElement) {
-    for (const [currency, value] of Object.entries(CURRENCIES)) {
+export function addOptionsToSelect(
+    select: HTMLElement,
+    currencies: object
+) {
+    for (const [currency, value] of Object.entries(currencies)) {
         const svgName: string = currency.toLowerCase();
         const option = document.createElement('div');
         const spanText = document.createElement('span');
 
-        spanText.innerHTML = `${currency} - ${[value]}`;
+        spanText.innerHTML = value;
         option.append(spanText);
         select.append(option);
         option.classList.add('option-currency');
