@@ -6,28 +6,24 @@ export function getCurrenciesBySearch(
     selectCurrenciesNode: HTMLElement
 ) {
     const select = document.createElement('div');
+
+    let searchInputValue = '';
     selectCurrenciesNode.after(select);
     select.classList.add('select-currencies');
 
     searchInputNode.addEventListener('input', () => {
+        searchInputValue = searchInputNode.value;
         selectCurrenciesNode.style.display = 'none';
-        filterCurrencies(searchInputNode, select);
+        filterCurrencies(searchInputValue, select);
     });
 }
 
-function filterCurrencies(
-    input: HTMLInputElement,
-    select: HTMLElement
-) {
+function filterCurrencies(inputValue: string, select: HTMLElement) {
     const filteredCurrencies = Object.fromEntries(
         Object.entries(CURRENCIES).filter((currency) => {
-            while (select.firstChild) {
-                select.removeChild(select.firstChild);
-            }
-
             return currency[1]
                 .toLowerCase()
-                .includes(input.value.toLowerCase());
+                .includes(inputValue.toLowerCase());
         })
     );
 
@@ -41,3 +37,7 @@ function filterCurrencies(
         addOptionsToSelect(select, filteredCurrencies);
     }
 }
+
+// список нод
+// если происходит событие input, то скрыть всё
+// далее CURRENCIES отфильтровать и данные перенести в объект

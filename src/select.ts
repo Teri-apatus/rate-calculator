@@ -28,6 +28,9 @@ export function addOptionsToSelect(
     select: HTMLElement,
     currencies: object
 ) {
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
+    }
     for (const [currency, value] of Object.entries(currencies)) {
         const svgName: string = currency.toLowerCase();
         const option = document.createElement('div');
