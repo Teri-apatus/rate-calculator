@@ -14,11 +14,12 @@ export function getCurrenciesBySearch(
     searchInputNode.addEventListener('input', () => {
         searchInputValue = searchInputNode.value;
         selectCurrenciesNode.style.display = 'none';
-        filterCurrencies(searchInputValue, select);
+        const requiredCurrencies = filterCurrencies(searchInputValue);
+        addOptionsToSelect(select, requiredCurrencies);
     });
 }
 
-function filterCurrencies(inputValue: string, select: HTMLElement) {
+function filterCurrencies(inputValue: string) {
     const filteredCurrencies = Object.fromEntries(
         Object.entries(CURRENCIES).filter((currency) => {
             return currency[1]
@@ -32,12 +33,7 @@ function filterCurrencies(inputValue: string, select: HTMLElement) {
     };
 
     if (JSON.stringify(filteredCurrencies) === '{}') {
-        addOptionsToSelect(select, notFindCurrencies);
-    } else {
-        addOptionsToSelect(select, filteredCurrencies);
+        return notFindCurrencies;
     }
+    return filteredCurrencies;
 }
-
-// список нод
-// если происходит событие input, то скрыть всё
-// далее CURRENCIES отфильтровать и данные перенести в объект
