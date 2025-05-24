@@ -3,7 +3,6 @@ import { CURRENCIES } from './constants';
 import { getRates } from './getRates';
 import { fillCurrencySelects } from './select';
 import { Currencies } from './type';
-import swapArrows from './images/icons/swap-arrows.svg';
 import { getCurrenciesBySearch } from './search';
 
 export function printResult() {
@@ -49,10 +48,13 @@ export function printResult() {
         document.getElementById('searchExchangeCurrency')
     );
 
-    addSwapSvg();
     getCurrenciesBySearch(
         searchBaseInputNode,
         baseCurrencySelectNode
+    );
+    getCurrenciesBySearch(
+        searchExchangeInputNode,
+        exchangeCurrencySelectNode
     );
 
     fillCurrencySelects([
@@ -152,11 +154,4 @@ function showOutput() {
     if ((outputContainerNode.style.opacity = '0')) {
         outputContainerNode.style.opacity = '1';
     }
-}
-
-function addSwapSvg() {
-    const imgNode = <HTMLImageElement>(
-        document.getElementById('swapArrows')
-    );
-    imgNode.src = swapArrows;
 }
