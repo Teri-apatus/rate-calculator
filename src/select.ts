@@ -20,19 +20,24 @@ const svgContext = svgRequire.context(
 
 export function fillCurrencySelects(selectsNode: HTMLElement[]) {
     selectsNode.forEach((select) => {
-        addOptionsToSelect(select);
+        addOptionsToSelect(select, CURRENCIES);
     });
 }
 
-function addOptionsToSelect(select: HTMLElement) {
-    for (const [currency, value] of Object.entries(CURRENCIES)) {
-        const svgName: string = currency.toLocaleLowerCase();
+export function addOptionsToSelect(
+    select: HTMLElement,
+    currencies: object
+) {
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
+    }
+    for (const [currency, value] of Object.entries(currencies)) {
+        const svgName: string = currency.toLowerCase();
         const option = document.createElement('div');
-
         const spanText = document.createElement('span');
 
-        spanText.innerHTML = `${currency} - ${[value]}`;
-
+        spanText.innerHTML = value;
+        option.append(spanText);
         select.append(option);
         option.classList.add('option-currency');
         option.setAttribute('id', currency);
@@ -43,16 +48,27 @@ function addOptionsToSelect(select: HTMLElement) {
                 flagImg.setAttribute('width', '15px');
                 const iconPath = svgContext(`./${svgName}.svg`);
                 flagImg.src = iconPath;
-                option.append(flagImg);
+                option.prepend(flagImg);
             }
         } catch (error) {
-            console.warn(`Flag SVG not found for ${svgName}`);
+            console.warn(error, `Flag SVG not found for ${svgName}`);
         }
-        option.append(spanText);
     }
+    getHeightSelect(select);
 }
 
 function hasFlag(currency: Currencies): boolean {
-    const regexp = /ang|gtq|xaf|xcd|xof|xpf/i;
+    const regexp = /ang|xaf|xcd|xof|xpf/i;
     return !regexp.test(currency);
+}
+
+export function getHeightSelect(select: HTMLElement) {
+    const optionsAmount = select.childElementCount;
+    const heightOption =
+        select.firstElementChild.getBoundingClientRect().height;
+    const container = select.parentElement;
+
+    container.style.height = `${
+        heightOption * (optionsAmount + 2)
+    }px`;
 }
