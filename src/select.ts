@@ -45,7 +45,8 @@ export function addOptionsToSelect(
         try {
             if (hasFlag(currency as Currencies)) {
                 const flagImg = document.createElement('img');
-                flagImg.setAttribute('width', '15px');
+                flagImg.classList.add('icon-flag');
+                flagImg.setAttribute('width', '24px');
                 const iconPath = svgContext(`./${svgName}.svg`);
                 flagImg.src = iconPath;
                 option.prepend(flagImg);

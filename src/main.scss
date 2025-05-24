@@ -15,14 +15,13 @@
 
 * {
     font-family: 'Overpass', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
     box-sizing: border-box;
-    font-size: 16px;
-    font-weight: 300;
 }
 
 *:focus-visible {
-    outline-offset: -2px;
-    outline: 2px solid #42519f;
+    outline: 1px solid #42519f;
 }
 
 body {
@@ -39,12 +38,15 @@ span {
     margin: 0 5px;
 }
 
+button {
+    cursor: pointer;
+}
+
 .container {
     width: 70vw;
     max-width: 1100px;
     height: 95vh;
     max-height: 800px;
-
     border: 20px solid #171a26;
     border-radius: 15px;
     background: linear-gradient(#b1b7d1 50%, #98a0c3 50%);
@@ -58,7 +60,6 @@ h1 {
     margin: 60px auto;
     text-align: center;
     color: #42519f;
-    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 4px;
     font-weight: normal;
@@ -82,7 +83,7 @@ h1 {
     padding-top: 10px;
     flex-basis: 190px;
     color: #42519f;
-    font-weight: normal;
+    font-size: 16px;
 }
 
 .f-right {
@@ -101,6 +102,7 @@ h1 {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    cursor: pointer;
 }
 
 .select-wrapper {
@@ -138,7 +140,6 @@ h1 {
     width: 100%;
     cursor: pointer;
     max-height: inherit;
-    font-size: 14px;
     overflow: auto;
     scrollbar-color: #98a0c3 #d8dbe8;
 }
@@ -163,16 +164,20 @@ h1 {
 }
 
 .option-currency {
-    font-size: 14px;
     height: 40px;
     border-bottom: 1px solid #e5e7f0;
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 15px;
 }
 
 .option-currency:hover {
     background-color: #e5e7f0;
+}
+
+.icon-flag {
+    height: 18px;
+    border-radius: 3px;
 }
 
 .option-currency span {
@@ -180,12 +185,21 @@ h1 {
     white-space: nowrap;
     overflow: hidden;
     font-size: 13px;
+    height: 13px;
 }
 
 .swap-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-basis: 8%;
     border: none;
     background-color: transparent;
+    height: 40px;
+}
+
+button svg {
+    fill: #42519f;
 }
 
 .button-container {
