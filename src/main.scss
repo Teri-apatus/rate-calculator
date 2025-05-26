@@ -24,6 +24,12 @@
     outline: 1px solid #42519f;
 }
 
+:root {
+    --block-height: 40px;
+    --max-visible-options: 6;
+    --max-visible-select-blocks: 8;
+}
+
 body {
     background-color: #8d8f9a;
 }
@@ -92,7 +98,7 @@ h1 {
 }
 
 .input-base-rate {
-    height: 40px;
+    height: var(--block-height);
     border: none;
     padding-left: 20px;
     border-radius: 5px;
@@ -110,17 +116,19 @@ h1 {
     flex-grow: 1;
 }
 
-.currency {
+.select-container {
     position: absolute;
     background-color: #f2f3f7;
-    max-height: 320px;
+    max-height: calc(
+        var(--block-height) * var(--max-visible-select-blocks)
+    );
     border-radius: 5px;
     z-index: 1;
     overflow: hidden;
     width: 100%;
 }
 
-.currency::after {
+.select-container::after {
     content: '';
     height: 0;
     width: 0;
@@ -134,26 +142,26 @@ h1 {
     pointer-events: none;
 }
 
-.select-currencies {
-    position: relative;
-    top: 80px;
-    width: 100%;
-    cursor: pointer;
-    max-height: inherit;
-    overflow: auto;
-    scrollbar-color: #98a0c3 #d8dbe8;
+.select-container:focus {
+    border: 1px solid #42519f;
 }
 
-.select-currencies:focus-visible {
-    background-color: rgb(245, 245, 245);
+.selected-currency {
+    height: var(--block-height);
+}
+
+.toggle-wrapper {
+    display: none;
+}
+
+.toggle-wrapper.open {
+    display: block;
 }
 
 .search-input {
-    position: absolute;
-    top: 40px;
     background-color: inherit;
     width: 100%;
-    height: 40px;
+    height: var(--block-height);
     padding-left: 20px;
     border-width: 1px;
     border-color: #d0d4e7 transparent;
@@ -163,10 +171,24 @@ h1 {
     border: none;
 }
 
+.select-currencies {
+    width: 100%;
+    max-height: calc(
+        var(--block-height) * var(--max-visible-options)
+    );
+    overflow: auto;
+    scrollbar-color: #98a0c3 #d8dbe8;
+}
+
+.select-currencies:focus-visible {
+    background-color: rgb(245, 245, 245);
+}
+
 .option-currency {
-    height: 40px;
+    height: var(--block-height);
     border-bottom: 1px solid #e5e7f0;
     display: flex;
+    cursor: pointer;
     align-items: center;
     padding-left: 15px;
 }
@@ -195,7 +217,7 @@ h1 {
     flex-basis: 8%;
     border: none;
     background-color: transparent;
-    height: 40px;
+    height: var(--block-height);
 }
 
 button svg {

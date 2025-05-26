@@ -1,7 +1,7 @@
 import { calculateCurrencies } from './calculate';
 import { CURRENCIES } from './constants';
 import { getRates } from './getRates';
-import { fillCurrencySelects } from './select';
+import { fillCurrencySelects, selectCurrency } from './select';
 import { Currencies } from './type';
 import { getCurrenciesBySearch } from './search';
 
@@ -46,6 +46,14 @@ export function printResult() {
     );
     const searchExchangeInputNode = <HTMLInputElement>(
         document.getElementById('searchExchangeCurrency')
+    );
+
+    const selectsNode = document.querySelectorAll(
+        '.select-container'
+    );
+
+    selectsNode.forEach((selectNode: HTMLElement) =>
+        selectCurrency(selectNode)
     );
 
     getCurrenciesBySearch(

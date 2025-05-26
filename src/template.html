@@ -29,21 +29,26 @@
                         <div class="currency-selection f-right">
                             <div class="select-wrapper">
                                 <div
-                                    class="base-currency selection currency"
+                                    class="base-currency selection select-container"
                                     id="selection"
                                 >
-                                    <input
-                                        type="search"
-                                        name="search-base-currency"
-                                        class="search-input"
-                                        id="searchBaseCurrency"
-                                        placeholder="Поиск"
-                                        autocomplete="off"
-                                    />
                                     <div
-                                        class="select-currencies"
-                                        id="selectBaseCurrencies"
+                                        class="selected-currency selected-base-currency"
                                     ></div>
+                                    <div class="toggle-wrapper">
+                                        <input
+                                            type="search"
+                                            name="search-base-currency"
+                                            class="search-input"
+                                            id="searchBaseCurrency"
+                                            placeholder="Поиск"
+                                            autocomplete="off"
+                                        />
+                                        <div
+                                            class="select-currencies"
+                                            id="selectBaseCurrencies"
+                                        ></div>
+                                    </div>
                                 </div>
                             </div>
                             <button
@@ -89,20 +94,25 @@
                             </button>
                             <div class="select-wrapper">
                                 <div
-                                    class="exchange-currency selection currency"
+                                    class="exchange-currency selection select-container"
                                 >
-                                    <input
-                                        type="search"
-                                        name="search-exchange-currency"
-                                        class="search-input"
-                                        id="searchExchangeCurrency"
-                                        placeholder="Поиск"
-                                        autocomplete="off"
-                                    />
                                     <div
-                                        class="select-currencies"
-                                        id="selectExchangeCurrencies"
+                                        class="selected-currency selected-exchange-currency"
                                     ></div>
+                                    <div class="toggle-wrapper">
+                                        <input
+                                            type="search"
+                                            name="search-exchange-currency"
+                                            class="search-input"
+                                            id="searchExchangeCurrency"
+                                            placeholder="Поиск"
+                                            autocomplete="off"
+                                        />
+                                        <div
+                                            class="select-currencies"
+                                            id="selectExchangeCurrencies"
+                                        ></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
