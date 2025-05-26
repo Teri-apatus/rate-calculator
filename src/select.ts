@@ -87,6 +87,7 @@ export function addOptionsToSelect(
             console.warn(error, `Flag SVG not found for ${svgName}`);
         }
     }
+
     addDefaultCurrency(select.closest('.select-container'));
 }
 
@@ -101,15 +102,9 @@ function addDefaultCurrency(select: HTMLElement) {
     const defaultSelect = select.querySelector('.selected-currency');
 
     if (defaultSelect.childElementCount === 0) {
-        if (
-            defaultSelect.className.includes('selected-base-currency')
-        ) {
+        if (defaultSelect.className.includes('base')) {
             defaultSelect.append(rub);
-        } else if (
-            defaultSelect.className.includes(
-                'selected-exchange-currency'
-            )
-        ) {
+        } else if (defaultSelect.className.includes('exchange')) {
             defaultSelect.append(usd);
         }
     }
@@ -130,5 +125,23 @@ function setSelectHeight(selectContainer: HTMLElement) {
 export function fillCurrencySelects(selectsNode: HTMLElement[]) {
     selectsNode.forEach((select) => {
         addOptionsToSelect(select, CURRENCIES);
+    });
+}
+
+export function clickSwapButton(
+    baseSelect: HTMLElement,
+    exchangeSelect: HTMLElement
+) {
+    const swapButtonNode = document.getElementById('swapButton');
+
+    swapButtonNode.addEventListener('click', (event) => {
+        event.preventDefault();
+        const textBase = baseSelect.textContent;
+        const textExchange = exchangeSelect.textContent;
+        const objBase = extractCurrencyFromClicked(textBase);
+        const objExch = extractCurrencyFromClicked(textExchange);
+
+        addOptionsToSelect(baseSelect, objExch);
+        addOptionsToSelect(exchangeSelect, objBase);
     });
 }

@@ -1,12 +1,23 @@
 import { calculateCurrencies } from './calculate';
 import { CURRENCIES } from './constants';
 import { getRates } from './getRates';
-import { fillCurrencySelects, selectCurrency } from './select';
+import {
+    clickSwapButton,
+    fillCurrencySelects,
+    selectCurrency,
+} from './select';
 import { Currencies } from './type';
 import { getCurrenciesBySearch } from './search';
 
 export function printResult() {
     const calcButtonNode = document.getElementById('calcInput');
+
+    const selectedBaseCurrencyNode = document.getElementById(
+        'selectedBaseCurrency'
+    );
+    const selectedExchangeCurrencyNode = document.getElementById(
+        'selectedExchangeCurrency'
+    );
 
     const baseCurrencySelectNode = document.getElementById(
         'selectBaseCurrencies'
@@ -70,24 +81,29 @@ export function printResult() {
         exchangeCurrencySelectNode,
     ]);
 
+    clickSwapButton(
+        selectedBaseCurrencyNode,
+        selectedExchangeCurrencyNode
+    );
+
     calcButtonNode.addEventListener('click', (event) => {
         event.preventDefault();
 
         const inputBaseCurrency = getCurrencyValueFromSelect(
-            baseCurrencySelectNode
+            selectedBaseCurrencyNode
         );
         const inputExchangeCurrency = getCurrencyValueFromSelect(
-            exchangeCurrencySelectNode
+            selectedExchangeCurrencyNode
         );
         addCurrenciesInOutput(
             outputBaseCurrencyNode,
             outputUnitBaseCurrencyNode,
-            baseCurrencySelectNode
+            selectedBaseCurrencyNode
         );
         addCurrenciesInOutput(
             outputExchangeCurrencyNode,
             outputUnitExchangeCurrencyNode,
-            exchangeCurrencySelectNode
+            selectedExchangeCurrencyNode
         );
 
         addRatesInOutput({
@@ -148,8 +164,10 @@ function addCurrenciesInOutput(
 }
 
 function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
-    const currencyValue = select.id;
+    console.log(select);
+    const currencyValue = select.textContent.slice(0, 3);
     if (currencyValue in CURRENCIES) {
+        console.log(currencyValue);
         return currencyValue as Currencies;
     }
     throw new Error('недопустимое значение для валюты');
