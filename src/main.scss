@@ -114,6 +114,11 @@ h1 {
 .select-wrapper {
     position: relative;
     flex-grow: 1;
+    border-radius: 5px;
+}
+
+.select-wrapper:focus-within {
+    outline: 1px solid #42519f;
 }
 
 .select-container {
@@ -140,10 +145,6 @@ h1 {
     top: 20px;
     transform: translateY(-25%);
     pointer-events: none;
-}
-
-.select-container:focus {
-    border: 1px solid #42519f;
 }
 
 .selected-currency {

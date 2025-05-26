@@ -3,19 +3,23 @@ import { getCurrenciesBySearch } from './search';
 import { Currencies, svgContext } from './type';
 
 export function selectCurrency(selectContainer: HTMLElement) {
-    const selectionResultElement: HTMLElement =
+    const selectionResultElementNode: HTMLElement =
         selectContainer.querySelector('.selected-currency');
-    const toggleContainer: HTMLElement =
+    const toggleContainerNode: HTMLElement =
         selectContainer.querySelector('.toggle-wrapper');
     const searchInputNode: HTMLInputElement =
         selectContainer.querySelector('.search-input');
-    const selectCurrencies: HTMLElement =
+    const selectCurrenciesNode: HTMLElement =
         selectContainer.querySelector('.select-currencies');
 
-    selectContainer.addEventListener('click', (event) => {
+    document.addEventListener('click', (event) => {
         const eventTarget = <HTMLElement>event.target;
 
-        if (eventTarget.closest('.select-currencies')) {
+        if (
+            !eventTarget.closest(`.${selectContainer.classList[0]}`)
+        ) {
+            toggleContainerNode.classList.remove('open');
+        } else if (eventTarget.closest('.select-currencies')) {
             const targetOption: HTMLElement = eventTarget.closest(
                 '.option-currency'
             );
@@ -23,21 +27,22 @@ export function selectCurrency(selectContainer: HTMLElement) {
                 targetOption.textContent
             );
             addOptionsToSelect(
-                selectionResultElement,
+                selectionResultElementNode,
                 objectClickedCurrency
             );
-            toggleContainer.classList.toggle('open');
+            toggleContainerNode.classList.toggle('open');
             searchInputNode.value = '';
-            addOptionsToSelect(selectCurrencies, CURRENCIES);
+            addOptionsToSelect(selectCurrenciesNode, CURRENCIES);
+            setSelectHeight(toggleContainerNode);
         } else if (eventTarget === searchInputNode) {
             getCurrenciesBySearch(
                 <HTMLInputElement>eventTarget,
-                selectCurrencies
+                selectCurrenciesNode
             );
+            setSelectHeight(toggleContainerNode);
         } else if (eventTarget.closest('.selected-currency')) {
-            toggleContainer.classList.toggle('open');
+            toggleContainerNode.classList.toggle('open');
         }
-        setSelectHeight(toggleContainer);
     });
 }
 
@@ -66,7 +71,8 @@ export function addOptionsToSelect(
         option.append(spanText);
         select.append(option);
         option.classList.add('option-currency', currency);
-        option.setAttribute('id', currency);
+        option.setAttribute('title', value);
+        option.setAttribute('role', 'option');
 
         try {
             if (hasFlag(currency as Currencies)) {

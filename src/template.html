@@ -30,7 +30,8 @@
                             <div class="select-wrapper">
                                 <div
                                     class="base-currency selection select-container"
-                                    id="selection"
+                                    tabindex="0"
+                                    role="combobox"
                                 >
                                     <div
                                         class="selected-currency selected-base-currency"
@@ -47,6 +48,7 @@
                                         <div
                                             class="select-currencies"
                                             id="selectBaseCurrencies"
+                                            role="listbox"
                                         ></div>
                                     </div>
                                 </div>
@@ -95,6 +97,11 @@
                             <div class="select-wrapper">
                                 <div
                                     class="exchange-currency selection select-container"
+                                    tabindex="0"
+                                    role="combobox"
+                                    aria-expanded="false"
+                                    aria-controls="listbox"
+                                    aria-haspopup="listbox"
                                 >
                                     <div
                                         class="selected-currency selected-exchange-currency"
@@ -111,6 +118,7 @@
                                         <div
                                             class="select-currencies"
                                             id="selectExchangeCurrencies"
+                                            role="listbox"
                                         ></div>
                                     </div>
                                 </div>
