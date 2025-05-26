@@ -113,12 +113,11 @@ export function printResult() {
             outputUnitExchangeRate: outputUnitExchangeRateNode,
             inputBaseCurrency,
             inputExchangeCurrency,
-        });
-        showOutput();
+        }).then(() => showOutput());
     });
 }
 
-function addRatesInOutput({
+async function addRatesInOutput({
     inputRate,
     outputBaseRate,
     outputExchangeRate,
@@ -133,7 +132,7 @@ function addRatesInOutput({
     inputBaseCurrency: Currencies;
     inputExchangeCurrency: Currencies;
 }) {
-    getRates(inputBaseCurrency, inputExchangeCurrency).then(
+    await getRates(inputBaseCurrency, inputExchangeCurrency).then(
         (rate) => {
             outputBaseRate.textContent = inputRate.value;
 
@@ -164,16 +163,14 @@ function addCurrenciesInOutput(
 }
 
 function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
-    console.log(select);
     const currencyValue = select.textContent.slice(0, 3);
     if (currencyValue in CURRENCIES) {
-        console.log(currencyValue);
         return currencyValue as Currencies;
     }
     throw new Error('недопустимое значение для валюты');
 }
 
-function showOutput() {
+async function showOutput() {
     const outputContainerNode =
         document.getElementById('outputContainer');
 
