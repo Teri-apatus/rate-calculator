@@ -13,13 +13,17 @@ export function selectCurrency(selectContainer: HTMLElement) {
         selectContainer.querySelector('.select-currencies');
 
     document.addEventListener('click', (event) => {
+        const openContainerNode: HTMLElement =
+            selectContainer.closest('.open');
         const eventTarget = <HTMLElement>event.target;
 
         if (
             !eventTarget.closest(`.${selectContainer.classList[0]}`)
         ) {
-            toggleContainerNode.classList.remove('open');
+            selectContainer.classList.remove('open');
+            setSelectHeight(selectContainer);
         } else if (eventTarget.closest('.select-currencies')) {
+            selectContainer.classList.add('open');
             const targetOption: HTMLElement = eventTarget.closest(
                 '.option-currency'
             );
@@ -30,18 +34,19 @@ export function selectCurrency(selectContainer: HTMLElement) {
                 selectionResultElementNode,
                 objectClickedCurrency
             );
-            toggleContainerNode.classList.toggle('open');
+            selectContainer.classList.remove('open');
+
             searchInputNode.value = '';
             addOptionsToSelect(selectCurrenciesNode, CURRENCIES);
-            setSelectHeight(toggleContainerNode);
+
+            setSelectHeight(selectContainer);
         } else if (eventTarget === searchInputNode) {
-            getCurrenciesBySearch(
-                <HTMLInputElement>eventTarget,
-                selectCurrenciesNode
-            );
-            setSelectHeight(toggleContainerNode);
+            getCurrenciesBySearch(searchInputNode, openContainerNode);
+            setSelectHeight(selectContainer);
         } else if (eventTarget.closest('.selected-currency')) {
-            toggleContainerNode.classList.toggle('open');
+            selectContainer.classList.toggle('open');
+            setSelectHeight(selectContainer);
+            searchInputNode.value = '';
         }
     });
 }
@@ -110,16 +115,20 @@ function addDefaultCurrency(select: HTMLElement) {
     }
 }
 
-function setSelectHeight(selectContainer: HTMLElement) {
+export function setSelectHeight(selectContainer: HTMLElement) {
     const options = selectContainer.querySelectorAll(
         '.option-currency'
     );
-    const optionsAmount = options.length;
     const heightOption = options[0].getBoundingClientRect().height;
+    if (!selectContainer.className.includes('open')) {
+        selectContainer.style.height = `${heightOption}px`;
+    } else {
+        const optionsAmount = options.length;
 
-    selectContainer.style.height = `${
-        heightOption * (optionsAmount + 2)
-    }px`;
+        selectContainer.style.height = `${
+            heightOption * (optionsAmount + 1)
+        }px`;
+    }
 }
 
 export function fillCurrencySelects(selectsNode: HTMLElement[]) {

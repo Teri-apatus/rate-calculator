@@ -124,9 +124,7 @@ h1 {
 .select-container {
     position: absolute;
     background-color: #f2f3f7;
-    max-height: calc(
-        var(--block-height) * var(--max-visible-select-blocks)
-    );
+    height: var(--block-height);
     border-radius: 5px;
     z-index: 1;
     overflow: hidden;
@@ -147,16 +145,23 @@ h1 {
     pointer-events: none;
 }
 
+.select-container::after:focus-within {
+    transform: translateY(-75%) rotateZ(180deg);
+}
+
 .selected-currency {
     height: var(--block-height);
 }
 
-.toggle-wrapper {
-    display: none;
+.select-container.open {
+    height: calc(
+        var(--block-height) * var(--max-visible-select-blocks)
+    );
+    max-height: calc(var(--block-height) * 8);
 }
 
-.toggle-wrapper.open {
-    display: block;
+.select-container.close {
+    height: var(--block-height);
 }
 
 .search-input {
@@ -209,6 +214,7 @@ h1 {
     overflow: hidden;
     font-size: 13px;
     height: 13px;
+    max-width: 70%;
 }
 
 .swap-button {
@@ -246,7 +252,6 @@ button svg {
 }
 
 .calc-button:hover {
-    transform: scale(101%);
     filter: brightness(1.1);
 }
 
