@@ -5,8 +5,6 @@ import { Currencies, svgContext } from './type';
 export function selectCurrency(selectContainer: HTMLElement) {
     const selectionResultElementNode: HTMLElement =
         selectContainer.querySelector('.selected-currency');
-    const toggleContainerNode: HTMLElement =
-        selectContainer.querySelector('.toggle-wrapper');
     const searchInputNode: HTMLInputElement =
         selectContainer.querySelector('.search-input');
     const selectCurrenciesNode: HTMLElement =

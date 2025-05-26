@@ -89,6 +89,10 @@ export function printResult() {
     calcButtonNode.addEventListener('click', (event) => {
         event.preventDefault();
 
+        const loadAnimationNode =
+            document.getElementById('loadAnimation');
+        loadAnimationNode.classList.add('loading');
+
         const inputBaseCurrency = getCurrencyValueFromSelect(
             selectedBaseCurrencyNode
         );
@@ -113,7 +117,11 @@ export function printResult() {
             outputUnitExchangeRate: outputUnitExchangeRateNode,
             inputBaseCurrency,
             inputExchangeCurrency,
-        }).then(() => showOutput());
+        })
+            .then(() => {
+                loadAnimationNode.classList.remove('loading');
+            })
+            .then(() => showOutput());
     });
 }
 
@@ -171,10 +179,11 @@ function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
 }
 
 async function showOutput() {
-    const outputContainerNode =
-        document.getElementById('outputContainer');
+    const outputContainerNode = document.querySelectorAll(
+        '.result-container'
+    );
 
-    if ((outputContainerNode.style.opacity = '0')) {
-        outputContainerNode.style.opacity = '1';
-    }
+    outputContainerNode.forEach((result: HTMLElement) => {
+        result.style.opacity = '1';
+    });
 }

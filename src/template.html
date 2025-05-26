@@ -37,21 +37,20 @@
                                         class="selected-currency selected-base-currency"
                                         id="selectedBaseCurrency"
                                     ></div>
-                                    <div class="toggle-wrapper">
-                                        <input
-                                            type="search"
-                                            name="search-base-currency"
-                                            class="search-input"
-                                            id="searchBaseCurrency"
-                                            placeholder="Поиск"
-                                            autocomplete="off"
-                                        />
-                                        <div
-                                            class="select-currencies"
-                                            id="selectBaseCurrencies"
-                                            role="listbox"
-                                        ></div>
-                                    </div>
+
+                                    <input
+                                        type="search"
+                                        name="search-base-currency"
+                                        class="search-input"
+                                        id="searchBaseCurrency"
+                                        placeholder="Поиск"
+                                        autocomplete="off"
+                                    />
+                                    <div
+                                        class="select-currencies"
+                                        id="selectBaseCurrencies"
+                                        role="listbox"
+                                    ></div>
                                 </div>
                             </div>
                             <button
@@ -108,21 +107,20 @@
                                         class="selected-currency selected-exchange-currency"
                                         id="selectedExchangeCurrency"
                                     ></div>
-                                    <div class="toggle-wrapper">
-                                        <input
-                                            type="search"
-                                            name="search-exchange-currency"
-                                            class="search-input"
-                                            id="searchExchangeCurrency"
-                                            placeholder="Поиск"
-                                            autocomplete="off"
-                                        />
-                                        <div
-                                            class="select-currencies"
-                                            id="selectExchangeCurrencies"
-                                            role="listbox"
-                                        ></div>
-                                    </div>
+
+                                    <input
+                                        type="search"
+                                        name="search-exchange-currency"
+                                        class="search-input"
+                                        id="searchExchangeCurrency"
+                                        placeholder="Поиск"
+                                        autocomplete="off"
+                                    />
+                                    <div
+                                        class="select-currencies"
+                                        id="selectExchangeCurrencies"
+                                        role="listbox"
+                                    ></div>
                                 </div>
                             </div>
                         </div>
@@ -134,12 +132,14 @@
                         </button>
                     </div>
 
-                    <div
-                        id="outputContainer"
-                        class="output-container"
-                    >
+                    <div class="output-container">
+                        <div
+                            class="load-animation"
+                            id="loadAnimation"
+                        ></div>
                         <div
                             class="output-calculate calc-row result-container"
+                            id="outputContainer"
                         >
                             <span id="outputBaseRate"></span>
                             <span id="outputBaseCurrency"></span>

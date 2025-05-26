@@ -13,6 +13,13 @@
         url('./fonts/YesevaOne-Regular.ttf') format('ttf');
 }
 
+:root {
+    --option-height: 40px;
+    --max-visible-options: 6;
+    --max-visible-select-options: 8;
+    --ink-color: #42519f;
+}
+
 * {
     font-family: 'Overpass', sans-serif;
     font-size: 14px;
@@ -21,13 +28,7 @@
 }
 
 *:focus-visible {
-    outline: 1px solid #42519f;
-}
-
-:root {
-    --block-height: 40px;
-    --max-visible-options: 6;
-    --max-visible-select-blocks: 8;
+    outline: 1px solid var(--ink-color);
 }
 
 body {
@@ -65,7 +66,7 @@ h1 {
     font-size: 65px;
     margin: 60px auto;
     text-align: center;
-    color: #42519f;
+    color: var(--ink-color);
     text-transform: uppercase;
     letter-spacing: 4px;
     font-weight: normal;
@@ -88,7 +89,7 @@ h1 {
     text-align: right;
     padding-top: 10px;
     flex-basis: 190px;
-    color: #42519f;
+    color: var(--ink-color);
     font-size: 16px;
 }
 
@@ -98,7 +99,7 @@ h1 {
 }
 
 .input-base-rate {
-    height: var(--block-height);
+    height: var(--option-height);
     border: none;
     padding-left: 20px;
     border-radius: 5px;
@@ -118,13 +119,13 @@ h1 {
 }
 
 .select-wrapper:focus-within {
-    outline: 1px solid #42519f;
+    outline: 1px solid var(--ink-color);
 }
 
 .select-container {
     position: absolute;
     background-color: #f2f3f7;
-    height: var(--block-height);
+    height: var(--option-height);
     border-radius: 5px;
     z-index: 1;
     overflow: hidden;
@@ -143,31 +144,29 @@ h1 {
     top: 20px;
     transform: translateY(-25%);
     pointer-events: none;
+    transition: transform 0.2s;
 }
 
-.select-container::after:focus-within {
+.open::after {
     transform: translateY(-75%) rotateZ(180deg);
+    transition: transform 0.2s;
 }
 
 .selected-currency {
-    height: var(--block-height);
+    height: var(--option-height);
 }
 
 .select-container.open {
     height: calc(
-        var(--block-height) * var(--max-visible-select-blocks)
+        var(--option-height) * var(--max-visible-select-options)
     );
-    max-height: calc(var(--block-height) * 8);
-}
-
-.select-container.close {
-    height: var(--block-height);
+    max-height: calc(var(--option-height) * 8);
 }
 
 .search-input {
     background-color: inherit;
     width: 100%;
-    height: var(--block-height);
+    height: var(--option-height);
     padding-left: 20px;
     border-width: 1px;
     border-color: #d0d4e7 transparent;
@@ -180,7 +179,7 @@ h1 {
 .select-currencies {
     width: 100%;
     max-height: calc(
-        var(--block-height) * var(--max-visible-options)
+        var(--option-height) * var(--max-visible-options)
     );
     overflow: auto;
     scrollbar-color: #98a0c3 #d8dbe8;
@@ -191,7 +190,7 @@ h1 {
 }
 
 .option-currency {
-    height: var(--block-height);
+    height: var(--option-height);
     border-bottom: 1px solid #e5e7f0;
     display: flex;
     cursor: pointer;
@@ -224,11 +223,11 @@ h1 {
     flex-basis: 8%;
     border: none;
     background-color: transparent;
-    height: var(--block-height);
+    height: var(--option-height);
 }
 
 button svg {
-    fill: #42519f;
+    fill: var(--ink-color);
 }
 
 .button-container {
@@ -246,7 +245,7 @@ button svg {
     text-transform: uppercase;
     letter-spacing: 1px;
     border: none;
-    background-color: #42519f;
+    background-color: var(--ink-color);
     border-radius: 10px;
     box-shadow: 7px 7px 24px #676d85, -7px -7px 24px #c9d3ff;
 }
@@ -263,13 +262,47 @@ button svg {
 }
 
 .output-container {
+    position: relative;
     justify-content: center;
     margin-top: 50px;
+}
+
+.load-animation {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
     opacity: 0;
 }
 
+.loading {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--ink-color);
+    border-radius: 50%;
+    border-left: none;
+    border-bottom: none;
+
+    visibility: visible;
+    opacity: 1;
+
+    animation-name: loader;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes loader {
+    0% {
+        transform: translateX(-50%) rotate(0);
+    }
+    100% {
+        transform: translateX(-50%) rotate(360deg);
+    }
+}
+
 .result-container {
-    color: #42519f;
+    color: var(--ink-color);
+    opacity: 0;
 }
 
 .output-calculate span {
