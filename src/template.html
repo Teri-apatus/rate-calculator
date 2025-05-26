@@ -29,21 +29,29 @@
                         <div class="currency-selection f-right">
                             <div class="select-wrapper">
                                 <div
-                                    class="base-currency selection currency"
-                                    id="selection"
+                                    class="base-currency selection select-container"
+                                    tabindex="0"
+                                    role="combobox"
                                 >
-                                    <input
-                                        type="search"
-                                        name="search-base-currency"
-                                        class="search-input"
-                                        id="searchBaseCurrency"
-                                        placeholder="Поиск"
-                                        autocomplete="off"
-                                    />
                                     <div
-                                        class="select-currencies"
-                                        id="selectBaseCurrencies"
+                                        class="selected-currency selected-base-currency"
+                                        id="selectedBaseCurrency"
                                     ></div>
+                                    <div class="toggle-wrapper">
+                                        <input
+                                            type="search"
+                                            name="search-base-currency"
+                                            class="search-input"
+                                            id="searchBaseCurrency"
+                                            placeholder="Поиск"
+                                            autocomplete="off"
+                                        />
+                                        <div
+                                            class="select-currencies"
+                                            id="selectBaseCurrencies"
+                                            role="listbox"
+                                        ></div>
+                                    </div>
                                 </div>
                             </div>
                             <button
@@ -89,20 +97,32 @@
                             </button>
                             <div class="select-wrapper">
                                 <div
-                                    class="exchange-currency selection currency"
+                                    class="exchange-currency selection select-container"
+                                    tabindex="0"
+                                    role="combobox"
+                                    aria-expanded="false"
+                                    aria-controls="listbox"
+                                    aria-haspopup="listbox"
                                 >
-                                    <input
-                                        type="search"
-                                        name="search-exchange-currency"
-                                        class="search-input"
-                                        id="searchExchangeCurrency"
-                                        placeholder="Поиск"
-                                        autocomplete="off"
-                                    />
                                     <div
-                                        class="select-currencies"
-                                        id="selectExchangeCurrencies"
+                                        class="selected-currency selected-exchange-currency"
+                                        id="selectedExchangeCurrency"
                                     ></div>
+                                    <div class="toggle-wrapper">
+                                        <input
+                                            type="search"
+                                            name="search-exchange-currency"
+                                            class="search-input"
+                                            id="searchExchangeCurrency"
+                                            placeholder="Поиск"
+                                            autocomplete="off"
+                                        />
+                                        <div
+                                            class="select-currencies"
+                                            id="selectExchangeCurrencies"
+                                            role="listbox"
+                                        ></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

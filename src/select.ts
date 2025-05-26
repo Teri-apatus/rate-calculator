@@ -1,27 +1,57 @@
 import { CURRENCIES } from './constants';
-import { Currencies } from './type';
+import { getCurrenciesBySearch } from './search';
+import { Currencies, svgContext } from './type';
 
-const svgRequire = require as typeof require & {
-    context: (
-        path: string,
-        deep?: boolean,
-        filter?: RegExp
-    ) => {
-        keys: () => string[];
-        (id: string): string;
-    };
-};
+export function selectCurrency(selectContainer: HTMLElement) {
+    const selectionResultElementNode: HTMLElement =
+        selectContainer.querySelector('.selected-currency');
+    const toggleContainerNode: HTMLElement =
+        selectContainer.querySelector('.toggle-wrapper');
+    const searchInputNode: HTMLInputElement =
+        selectContainer.querySelector('.search-input');
+    const selectCurrenciesNode: HTMLElement =
+        selectContainer.querySelector('.select-currencies');
 
-const svgContext = svgRequire.context(
-    './images/icons/',
-    false,
-    /\.svg$/
-);
+    document.addEventListener('click', (event) => {
+        const eventTarget = <HTMLElement>event.target;
 
-export function fillCurrencySelects(selectsNode: HTMLElement[]) {
-    selectsNode.forEach((select) => {
-        addOptionsToSelect(select, CURRENCIES);
+        if (
+            !eventTarget.closest(`.${selectContainer.classList[0]}`)
+        ) {
+            toggleContainerNode.classList.remove('open');
+        } else if (eventTarget.closest('.select-currencies')) {
+            const targetOption: HTMLElement = eventTarget.closest(
+                '.option-currency'
+            );
+            const objectClickedCurrency = extractCurrencyFromClicked(
+                targetOption.textContent
+            );
+            addOptionsToSelect(
+                selectionResultElementNode,
+                objectClickedCurrency
+            );
+            toggleContainerNode.classList.toggle('open');
+            searchInputNode.value = '';
+            addOptionsToSelect(selectCurrenciesNode, CURRENCIES);
+            setSelectHeight(toggleContainerNode);
+        } else if (eventTarget === searchInputNode) {
+            getCurrenciesBySearch(
+                <HTMLInputElement>eventTarget,
+                selectCurrenciesNode
+            );
+            setSelectHeight(toggleContainerNode);
+        } else if (eventTarget.closest('.selected-currency')) {
+            toggleContainerNode.classList.toggle('open');
+        }
     });
+}
+
+function extractCurrencyFromClicked(textFromClicked: string): {
+    [code: string]: string;
+} {
+    return {
+        [textFromClicked.slice(0, 3)]: textFromClicked,
+    };
 }
 
 export function addOptionsToSelect(
@@ -31,6 +61,7 @@ export function addOptionsToSelect(
     while (select.firstChild) {
         select.removeChild(select.firstChild);
     }
+
     for (const [currency, value] of Object.entries(currencies)) {
         const svgName: string = currency.toLowerCase();
         const option = document.createElement('div');
@@ -39,8 +70,9 @@ export function addOptionsToSelect(
         spanText.innerHTML = value;
         option.append(spanText);
         select.append(option);
-        option.classList.add('option-currency');
-        option.setAttribute('id', currency);
+        option.classList.add('option-currency', currency);
+        option.setAttribute('title', value);
+        option.setAttribute('role', 'option');
 
         try {
             if (hasFlag(currency as Currencies)) {
@@ -55,7 +87,8 @@ export function addOptionsToSelect(
             console.warn(error, `Flag SVG not found for ${svgName}`);
         }
     }
-    getHeightSelect(select);
+
+    addDefaultCurrency(select.closest('.select-container'));
 }
 
 function hasFlag(currency: Currencies): boolean {
@@ -63,13 +96,52 @@ function hasFlag(currency: Currencies): boolean {
     return !regexp.test(currency);
 }
 
-export function getHeightSelect(select: HTMLElement) {
-    const optionsAmount = select.childElementCount;
-    const heightOption =
-        select.firstElementChild.getBoundingClientRect().height;
-    const container = select.parentElement;
+function addDefaultCurrency(select: HTMLElement) {
+    const rub = select.querySelector('.RUB');
+    const usd = select.querySelector('.USD');
+    const defaultSelect = select.querySelector('.selected-currency');
 
-    container.style.height = `${
+    if (defaultSelect.childElementCount === 0) {
+        if (defaultSelect.className.includes('base')) {
+            defaultSelect.append(rub);
+        } else if (defaultSelect.className.includes('exchange')) {
+            defaultSelect.append(usd);
+        }
+    }
+}
+
+function setSelectHeight(selectContainer: HTMLElement) {
+    const options = selectContainer.querySelectorAll(
+        '.option-currency'
+    );
+    const optionsAmount = options.length;
+    const heightOption = options[0].getBoundingClientRect().height;
+
+    selectContainer.style.height = `${
         heightOption * (optionsAmount + 2)
     }px`;
+}
+
+export function fillCurrencySelects(selectsNode: HTMLElement[]) {
+    selectsNode.forEach((select) => {
+        addOptionsToSelect(select, CURRENCIES);
+    });
+}
+
+export function clickSwapButton(
+    baseSelect: HTMLElement,
+    exchangeSelect: HTMLElement
+) {
+    const swapButtonNode = document.getElementById('swapButton');
+
+    swapButtonNode.addEventListener('click', (event) => {
+        event.preventDefault();
+        const textBase = baseSelect.textContent;
+        const textExchange = exchangeSelect.textContent;
+        const objBase = extractCurrencyFromClicked(textBase);
+        const objExch = extractCurrencyFromClicked(textExchange);
+
+        addOptionsToSelect(baseSelect, objExch);
+        addOptionsToSelect(exchangeSelect, objBase);
+    });
 }

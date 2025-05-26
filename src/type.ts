@@ -24,3 +24,20 @@ export type RateResponse = {
     base: Currencies;
     rates: Partial<Rates>;
 };
+
+const svgRequire = require as typeof require & {
+    context: (
+        path: string,
+        deep?: boolean,
+        filter?: RegExp
+    ) => {
+        keys: () => string[];
+        (id: string): string;
+    };
+};
+
+export const svgContext = svgRequire.context(
+    './images/icons/',
+    false,
+    /\.svg$/
+);

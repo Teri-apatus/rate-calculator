@@ -2,20 +2,16 @@ import { CURRENCIES } from './constants';
 import { addOptionsToSelect } from './select';
 
 export function getCurrenciesBySearch(
-    searchInputNode: HTMLInputElement,
-    selectCurrenciesNode: HTMLElement
+    searchInput: HTMLInputElement,
+    select: HTMLElement
 ) {
-    const select = document.createElement('div');
+    searchInput.addEventListener('input', () => {
+        const requiredCurrencies = filterCurrencies(
+            searchInput.value
+        );
 
-    let searchInputValue = '';
-    selectCurrenciesNode.after(select);
-    select.classList.add('select-currencies');
-
-    searchInputNode.addEventListener('input', () => {
-        searchInputValue = searchInputNode.value;
-        selectCurrenciesNode.style.display = 'none';
-        const requiredCurrencies = filterCurrencies(searchInputValue);
         addOptionsToSelect(select, requiredCurrencies);
+        getHeightSelect(select);
     });
 }
 
@@ -36,4 +32,14 @@ function filterCurrencies(inputValue: string) {
         return notFindCurrencies;
     }
     return filteredCurrencies;
+}
+
+function getHeightSelect(select: HTMLElement) {
+    const optionsAmount = select.childElementCount;
+    const heightOption =
+        select.firstElementChild.getBoundingClientRect().height;
+
+    select.parentElement.style.height = `${
+        heightOption * (optionsAmount + 1)
+    }px`;
 }
