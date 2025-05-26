@@ -67,14 +67,14 @@ export function printResult() {
         selectCurrency(selectNode)
     );
 
-    getCurrenciesBySearch(
-        searchBaseInputNode,
-        baseCurrencySelectNode
-    );
-    getCurrenciesBySearch(
-        searchExchangeInputNode,
-        exchangeCurrencySelectNode
-    );
+    // getCurrenciesBySearch(
+    //     searchBaseInputNode,
+    //     baseCurrencySelectNode
+    // );
+    // getCurrenciesBySearch(
+    //     searchExchangeInputNode,
+    //     exchangeCurrencySelectNode
+    // );
 
     fillCurrencySelects([
         baseCurrencySelectNode,
