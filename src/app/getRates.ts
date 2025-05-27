@@ -58,7 +58,4 @@ function getRatesFromLocalStorage(): LocalStorageCurrencyType {
     }
 
     return ratesInLocalStorage;
-    // .baseCurrencies[baseCurrency][
-    //     exchangeCurrency
-    // ];
 }
