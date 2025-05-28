@@ -1,9 +1,4 @@
-import {
-    API_KEY,
-    BASE_API_URL,
-    CURRENCIES,
-    LOCAL_STORAGE_KEY_CURRENCY,
-} from './constants';
+import { API_KEY, BASE_API_URL } from './constants';
 import { mockData } from './mockData';
 import {
     Currencies,
@@ -41,26 +36,3 @@ export function getLatestRatesFromAPI(
 
     return promise;
 }
-
-// const localStorageData: LocalStorageCurrencyType = {
-//     date: Date.now(),
-//     baseCurrencies: {
-//         USD: {
-//             KRW: 15.853953,
-//             KWD: 0.003476,
-//             KYD: 0.009287,
-//             KZT: 5.642446,
-//             LAK: 244.772283,
-//             LBP: 1012.955214,
-//             LKR: 3.282712,
-//             LRD: 2.245187,
-//             LSL: 0.207067,
-//             LTL: 0.037132,
-//             RUB: 0.3333,
-//         },
-//     },
-// };
-// window.localStorage.setItem(
-//     LOCAL_STORAGE_KEY_CURRENCY,
-//     JSON.stringify(localStorageData)
-// );

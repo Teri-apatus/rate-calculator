@@ -4,12 +4,11 @@ import { getRates } from './getRates';
 import {
     clickSwapButton,
     fillCurrencySelects,
-    selectCurrency,
+    initCurrencySelect,
 } from './select';
 import { Currencies } from './type';
-import { getCurrenciesBySearch } from './search';
 
-export function printResult() {
+export function initCurrencyConverter() {
     const calcButtonNode = document.getElementById('calcInput');
 
     const selectedBaseCurrencyNode = document.getElementById(
@@ -64,17 +63,14 @@ export function printResult() {
     );
 
     selectsNode.forEach((selectNode: HTMLElement) =>
-        selectCurrency(selectNode)
+        initCurrencySelect(selectNode)
     );
 
-    // getCurrenciesBySearch(
-    //     searchBaseInputNode,
-    //     baseCurrencySelectNode
-    // );
-    // getCurrenciesBySearch(
-    //     searchExchangeInputNode,
-    //     exchangeCurrencySelectNode
-    // );
+    const outputResultNode: HTMLElement =
+        document.getElementById('resultContainer');
+
+    const loadingAnimationNode =
+        document.getElementById('loadAnimation');
 
     fillCurrencySelects([
         baseCurrencySelectNode,
@@ -88,6 +84,9 @@ export function printResult() {
 
     calcButtonNode.addEventListener('click', (event) => {
         event.preventDefault();
+
+        hideOutput(outputResultNode);
+        startLoadingAnimation(loadingAnimationNode);
 
         const inputBaseCurrency = getCurrencyValueFromSelect(
             selectedBaseCurrencyNode
@@ -113,8 +112,19 @@ export function printResult() {
             outputUnitExchangeRate: outputUnitExchangeRateNode,
             inputBaseCurrency,
             inputExchangeCurrency,
-        }).then(() => showOutput());
+        }).then(() => {
+            finishLoadingAnimation(loadingAnimationNode);
+            showOutput(outputResultNode);
+        });
     });
+}
+
+function startLoadingAnimation(loadingCircle: HTMLElement) {
+    loadingCircle.classList.add('loading');
+}
+
+function finishLoadingAnimation(loadingCircle: HTMLElement) {
+    loadingCircle.classList.remove('loading');
 }
 
 async function addRatesInOutput({
@@ -170,11 +180,10 @@ function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
     throw new Error('недопустимое значение для валюты');
 }
 
-async function showOutput() {
-    const outputContainerNode =
-        document.getElementById('outputContainer');
+function showOutput(outputResult: HTMLElement) {
+    outputResult.style.opacity = '1';
+}
 
-    if ((outputContainerNode.style.opacity = '0')) {
-        outputContainerNode.style.opacity = '1';
-    }
+function hideOutput(outputResult: HTMLElement) {
+    outputResult.style.opacity = '0';
 }

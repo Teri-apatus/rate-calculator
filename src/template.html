@@ -1,7 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
     <head>
         <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes"
+        />
+        <meta
+            name="description"
+            content="Бесплатный конвертер валют"
+        />
         <title>Конвертер валют</title>
     </head>
     <body>
@@ -14,6 +22,7 @@
                         <div class="f-right">
                             <input
                                 type="number"
+                                aria-label="Input currency"
                                 inputmode="decimal"
                                 value="1"
                                 class="input-base-rate"
@@ -32,12 +41,15 @@
                                     class="base-currency selection select-container"
                                     tabindex="0"
                                     role="combobox"
+                                    aria-expanded="false"
+                                    aria-controls="selectExchangeCurrencies"
+                                    aria-haspopup="listbox"
                                 >
                                     <div
                                         class="selected-currency selected-base-currency"
                                         id="selectedBaseCurrency"
                                     ></div>
-                                    <div class="toggle-wrapper">
+                                    <div class="toggle-container">
                                         <input
                                             type="search"
                                             name="search-base-currency"
@@ -45,11 +57,14 @@
                                             id="searchBaseCurrency"
                                             placeholder="Поиск"
                                             autocomplete="off"
+                                            aria-label="Поиск"
+                                            aria-controls="selectExchangeCurrencies"
                                         />
                                         <div
                                             class="select-currencies"
                                             id="selectBaseCurrencies"
                                             role="listbox"
+                                            aria-label="Выбор исходной валюты"
                                         ></div>
                                     </div>
                                 </div>
@@ -64,7 +79,9 @@
                                     viewBox="0 0 48 48"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
-                                    <title>swap-horizontal</title>
+                                    <title>
+                                        Поменять валюты местами
+                                    </title>
                                     <g
                                         id="Layer_2"
                                         data-name="Layer 2"
@@ -101,28 +118,30 @@
                                     tabindex="0"
                                     role="combobox"
                                     aria-expanded="false"
-                                    aria-controls="listbox"
+                                    aria-controls="selectExchangeCurrencies"
                                     aria-haspopup="listbox"
                                 >
                                     <div
                                         class="selected-currency selected-exchange-currency"
                                         id="selectedExchangeCurrency"
                                     ></div>
-                                    <div class="toggle-wrapper">
-                                        <input
-                                            type="search"
-                                            name="search-exchange-currency"
-                                            class="search-input"
-                                            id="searchExchangeCurrency"
-                                            placeholder="Поиск"
-                                            autocomplete="off"
-                                        />
-                                        <div
-                                            class="select-currencies"
-                                            id="selectExchangeCurrencies"
-                                            role="listbox"
-                                        ></div>
-                                    </div>
+
+                                    <input
+                                        type="search"
+                                        name="search-exchange-currency"
+                                        class="search-input"
+                                        id="searchExchangeCurrency"
+                                        placeholder="Поиск"
+                                        autocomplete="off"
+                                        aria-label="Поиск"
+                                        aria-controls="selectExchangeCurrencies"
+                                    />
+                                    <div
+                                        class="select-currencies"
+                                        id="selectExchangeCurrencies"
+                                        role="listbox"
+                                        aria-label="Выбор валюты для конвертирования"
+                                    ></div>
                                 </div>
                             </div>
                         </div>
@@ -134,29 +153,40 @@
                         </button>
                     </div>
 
-                    <div
-                        id="outputContainer"
-                        class="output-container"
-                    >
+                    <div class="output-container">
                         <div
-                            class="output-calculate calc-row result-container"
-                        >
-                            <span id="outputBaseRate"></span>
-                            <span id="outputBaseCurrency"></span>
-                            <span>=</span>
-                            <span id="outputExchangeRate"></span>
-                            <span id="outputExchangeCurrency"></span>
-                        </div>
+                            class="load-animation"
+                            id="loadAnimation"
+                        ></div>
                         <div
-                            class="output-unit calc-row result-container"
+                            class="result-container"
+                            id="resultContainer"
                         >
-                            <span>1</span>
-                            <span id="outputUnitBaseCurrency"></span>
-                            <span>=</span>
-                            <span id="outputUnitExchangeRate"></span>
-                            <span
-                                id="outputUnitExchangeCurrency"
-                            ></span>
+                            <div
+                                class="output-calculate calc-row"
+                                id="outputContainer"
+                            >
+                                <span id="outputBaseRate"></span>
+                                <span id="outputBaseCurrency"></span>
+                                <span>=</span>
+                                <span id="outputExchangeRate"></span>
+                                <span
+                                    id="outputExchangeCurrency"
+                                ></span>
+                            </div>
+                            <div class="output-unit calc-row">
+                                <span>1</span>
+                                <span
+                                    id="outputUnitBaseCurrency"
+                                ></span>
+                                <span>=</span>
+                                <span
+                                    id="outputUnitExchangeRate"
+                                ></span>
+                                <span
+                                    id="outputUnitExchangeCurrency"
+                                ></span>
+                            </div>
                         </div>
                     </div>
                 </form>

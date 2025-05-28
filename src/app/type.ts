@@ -37,7 +37,7 @@ const svgRequire = require as typeof require & {
 };
 
 export const svgContext = svgRequire.context(
-    './images/icons/',
+    '../images/icons/',
     false,
     /\.svg$/
 );
