@@ -1,59 +1,87 @@
 import { CURRENCIES } from './constants';
-import { getCurrenciesBySearch } from './search';
 import { Currencies, svgContext } from './type';
 
-export function selectCurrency(selectContainer: HTMLElement) {
-    const selectionResultElementNode: HTMLElement =
+export function initCurrencySelect(selectContainer: HTMLElement) {
+    const selectedCurrencyNode: HTMLElement =
         selectContainer.querySelector('.selected-currency');
     const searchInputNode: HTMLInputElement =
         selectContainer.querySelector('.search-input');
     const selectCurrenciesNode: HTMLElement =
         selectContainer.querySelector('.select-currencies');
 
-    document.addEventListener('click', (event) => {
-        const openContainerNode: HTMLElement =
-            selectContainer.closest('.open');
+    document.addEventListener('keyup', (event) => {
+        // console.log(event);
+        // console.log('active', document.activeElement);
+    });
+
+    selectContainer.addEventListener('click', (event) => {
         const eventTarget = <HTMLElement>event.target;
 
-        if (
-            !eventTarget.closest(`.${selectContainer.classList[0]}`)
-        ) {
-            selectContainer.classList.remove('open');
-            setSelectHeight(selectContainer);
-        } else if (eventTarget.closest('.select-currencies')) {
-            selectContainer.classList.add('open');
-            const targetOption: HTMLElement = eventTarget.closest(
-                '.option-currency'
-            );
-            const objectClickedCurrency = extractCurrencyFromClicked(
-                targetOption.textContent
-            );
-            addOptionsToSelect(
-                selectionResultElementNode,
-                objectClickedCurrency
-            );
-            selectContainer.classList.remove('open');
+        if (!eventTarget.closest('.open')) {
+            document.body.addEventListener('click', onBodyClick);
+        }
 
-            searchInputNode.value = '';
-            addOptionsToSelect(selectCurrenciesNode, CURRENCIES);
-
-            setSelectHeight(selectContainer);
+        if (eventTarget.closest('.select-currencies')) {
+            initSelectCurrency(eventTarget);
         } else if (eventTarget === searchInputNode) {
-            getCurrenciesBySearch(searchInputNode, openContainerNode);
-            setSelectHeight(selectContainer);
+            searchInputNode.addEventListener('input', () => {
+                initCurrencySearch(searchInputNode.value);
+            });
         } else if (eventTarget.closest('.selected-currency')) {
             selectContainer.classList.toggle('open');
-            setSelectHeight(selectContainer);
             searchInputNode.value = '';
         }
+        setSelectHeight(selectContainer);
     });
+
+    function initSelectCurrency(clickedElement: HTMLElement) {
+        selectContainer.classList.add('open');
+        const targetOption: HTMLElement = clickedElement.closest(
+            '.option-currency'
+        );
+        const objectClickedCurrency = extractCurrencyFromClicked(
+            targetOption.textContent
+        );
+        addOptionsToSelect(
+            selectedCurrencyNode,
+            objectClickedCurrency
+        );
+        selectContainer.classList.remove('open');
+
+        searchInputNode.value = '';
+        addOptionsToSelect(selectCurrenciesNode, CURRENCIES);
+    }
+
+    function initCurrencySearch(inputSearchValue: string) {
+        const requiredCurrencies = filterCurrencies(
+            inputSearchValue.toLowerCase()
+        );
+        addOptionsToSelect(selectCurrenciesNode, requiredCurrencies);
+        setSelectHeight(selectContainer);
+    }
+
+    function onBodyClick(event: MouseEvent) {
+        function isClickInsideSelect(): boolean {
+            return Boolean(
+                (<HTMLElement>event.target).closest(
+                    `.${selectContainer.classList[0]}`
+                )
+            );
+        }
+
+        if (!isClickInsideSelect()) {
+            selectContainer.classList.remove('open');
+            setSelectHeight(selectContainer);
+            document.body.removeEventListener('click', onBodyClick);
+        }
+    }
 }
 
 function extractCurrencyFromClicked(textFromClicked: string): {
     [code: string]: string;
 } {
     return {
-        [textFromClicked.slice(0, 3)]: textFromClicked,
+        [textFromClicked.slice(0, 3)]: textFromClicked.slice(6),
     };
 }
 
@@ -70,11 +98,12 @@ export function addOptionsToSelect(
         const option = document.createElement('div');
         const spanText = document.createElement('span');
 
-        spanText.innerHTML = value;
+        spanText.innerHTML = `${currency} - ${value}`;
         option.append(spanText);
         select.append(option);
         option.classList.add('option-currency', currency);
         option.setAttribute('title', value);
+        option.setAttribute('tabindex', '-1');
         option.setAttribute('role', 'option');
 
         try {
@@ -82,6 +111,7 @@ export function addOptionsToSelect(
                 const flagImg = document.createElement('img');
                 flagImg.classList.add('icon-flag');
                 flagImg.setAttribute('width', '24px');
+                flagImg.setAttribute('alt', `${currency} flag`);
                 const iconPath = svgContext(`./${svgName}.svg`);
                 flagImg.src = iconPath;
                 option.prepend(flagImg);
@@ -111,6 +141,7 @@ function addDefaultCurrency(select: HTMLElement) {
             defaultSelect.append(usd);
         }
     }
+    (<HTMLElement>defaultSelect.firstChild).removeAttribute('role');
 }
 
 export function setSelectHeight(selectContainer: HTMLElement) {
@@ -151,4 +182,26 @@ export function clickSwapButton(
         addOptionsToSelect(baseSelect, objExch);
         addOptionsToSelect(exchangeSelect, objBase);
     });
+}
+
+function filterCurrencies(inputValue: string): object {
+    const filteredCurrencies = Object.fromEntries(
+        Object.entries(CURRENCIES).filter((currency) => {
+            const isoCurrency = currency[0].toLowerCase();
+            const localNameCurrency = currency[1].toLowerCase();
+            return (
+                isoCurrency.includes(inputValue) ||
+                localNameCurrency.includes(inputValue)
+            );
+        })
+    );
+
+    const notFindCurrencies = {
+        notFound: 'Не найдено',
+    };
+
+    if (JSON.stringify(filteredCurrencies) === '{}') {
+        return notFindCurrencies;
+    }
+    return filteredCurrencies;
 }

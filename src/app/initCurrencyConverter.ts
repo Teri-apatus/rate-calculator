@@ -4,7 +4,7 @@ import { getRates } from './getRates';
 import {
     clickSwapButton,
     fillCurrencySelects,
-    selectCurrency,
+    initCurrencySelect,
 } from './select';
 import { Currencies } from './type';
 
@@ -63,7 +63,7 @@ export function initCurrencyConverter() {
     );
 
     selectsNode.forEach((selectNode: HTMLElement) =>
-        selectCurrency(selectNode)
+        initCurrencySelect(selectNode)
     );
 
     const outputResultNode: HTMLElement =
@@ -85,7 +85,8 @@ export function initCurrencyConverter() {
     calcButtonNode.addEventListener('click', (event) => {
         event.preventDefault();
 
-        loadingAnimation(loadingAnimationNode, outputResultNode);
+        hideOutput(outputResultNode);
+        startLoadingAnimation(loadingAnimationNode);
 
         const inputBaseCurrency = getCurrencyValueFromSelect(
             selectedBaseCurrencyNode
@@ -111,25 +112,19 @@ export function initCurrencyConverter() {
             outputUnitExchangeRate: outputUnitExchangeRateNode,
             inputBaseCurrency,
             inputExchangeCurrency,
-        })
-            .then(() => {
-                loadingAnimation(
-                    loadingAnimationNode,
-                    outputResultNode
-                );
-            })
-            .then(() => showOutput(outputResultNode));
+        }).then(() => {
+            finishLoadingAnimation(loadingAnimationNode);
+            showOutput(outputResultNode);
+        });
     });
 }
 
-function loadingAnimation(
-    loadingCircle: HTMLElement,
-    outputResult: HTMLElement
-) {
-    loadingCircle.classList.toggle('loading');
-    if (loadingCircle.className.includes('loading')) {
-        outputResult.style.opacity = '0';
-    }
+function startLoadingAnimation(loadingCircle: HTMLElement) {
+    loadingCircle.classList.add('loading');
+}
+
+function finishLoadingAnimation(loadingCircle: HTMLElement) {
+    loadingCircle.classList.remove('loading');
 }
 
 async function addRatesInOutput({
@@ -187,4 +182,8 @@ function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
 
 function showOutput(outputResult: HTMLElement) {
     outputResult.style.opacity = '1';
+}
+
+function hideOutput(outputResult: HTMLElement) {
+    outputResult.style.opacity = '0';
 }
