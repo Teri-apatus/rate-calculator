@@ -17,14 +17,16 @@
             <div class="container">
                 <h1>конвертер валют</h1>
                 <form class="calc-form" name="calcForm">
-                    <div class="calc-row">
+                    <div class="input-number calc-row">
                         <div class="text">Сумма</div>
                         <div class="f-right">
                             <input
                                 type="number"
+                                step="0.01"
+                                title="Ввод суммы"
                                 aria-label="Input currency"
                                 inputmode="decimal"
-                                value="1"
+                                placeholder="0.00"
                                 class="input-base-rate"
                                 id="inputBaseRate"
                                 autocomplete="off"
@@ -33,7 +35,7 @@
                         </div>
                     </div>
 
-                    <div class="calc-row">
+                    <div class="input-currency calc-row">
                         <div class="text">Направление перевода</div>
                         <div class="currency-selection f-right">
                             <div class="select-wrapper">
@@ -147,7 +149,7 @@
                         </div>
                     </div>
 
-                    <div class="calc-row button-container">
+                    <div class="button-container calc-row">
                         <button class="calc-button" id="calcInput">
                             Рассчитать
                         </button>
@@ -158,35 +160,19 @@
                             class="load-animation"
                             id="loadAnimation"
                         ></div>
+
                         <div
-                            class="result-container"
+                            class="result-container calc-row"
                             id="resultContainer"
                         >
                             <div
-                                class="output-calculate calc-row"
-                                id="outputContainer"
-                            >
-                                <span id="outputBaseRate"></span>
-                                <span id="outputBaseCurrency"></span>
-                                <span>=</span>
-                                <span id="outputExchangeRate"></span>
-                                <span
-                                    id="outputExchangeCurrency"
-                                ></span>
-                            </div>
-                            <div class="output-unit calc-row">
-                                <span>1</span>
-                                <span
-                                    id="outputUnitBaseCurrency"
-                                ></span>
-                                <span>=</span>
-                                <span
-                                    id="outputUnitExchangeRate"
-                                ></span>
-                                <span
-                                    id="outputUnitExchangeCurrency"
-                                ></span>
-                            </div>
+                                class="result-calculate"
+                                id="outputCalculateResult"
+                            ></div>
+                            <div
+                                class="result-unit"
+                                id="outputUnitResult"
+                            ></div>
                         </div>
                     </div>
                 </form>

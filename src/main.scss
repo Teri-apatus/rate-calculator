@@ -42,7 +42,7 @@ main {
 }
 
 span {
-    margin: 0 5px;
+    margin-left: 0.5em;
 }
 
 button {
@@ -56,7 +56,7 @@ button {
     max-height: 800px;
     border: 20px solid #171a26;
     border-radius: 15px;
-    background: linear-gradient(#b1b7d1 50%, #98a0c3 50%);
+    background: linear-gradient(#cccfe1 50%, #98a0c3 50%);
     box-shadow: 76px 76px 152px #595b67, -76px -76px 152px #7b7c86,
         inset 0px 0px 12px 3px #171a27;
 }
@@ -82,6 +82,10 @@ h1 {
     display: flex;
     justify-content: center;
     margin: 0 auto;
+}
+
+.input-number,
+.input-currency {
     padding-bottom: 35px;
 }
 
@@ -103,6 +107,7 @@ h1 {
     border: none;
     padding-left: 20px;
     border-radius: 5px;
+    background-color: #f2f3f7;
 }
 
 .currency-selection {
@@ -264,13 +269,18 @@ button svg {
 .output-container {
     position: relative;
     justify-content: center;
-    margin-top: 50px;
+    border: 1px solid #cccfe1;
+    border-radius: 20px;
+    margin: 0 auto;
+    width: 60%;
+    background-color: #cccfe1;
 }
 
 .load-animation {
     position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-25px);
     visibility: hidden;
     opacity: 0;
 }
@@ -293,23 +303,28 @@ button svg {
 
 @keyframes loader {
     0% {
-        transform: translateX(-50%) rotate(0);
+        transform: translateX(-50%) translateY(-50%) rotate(0);
     }
     100% {
-        transform: translateX(-50%) rotate(360deg);
+        transform: translateX(-50%) translateY(-50%) rotate(360deg);
     }
 }
 
 .result-container {
     color: var(--ink-color);
     opacity: 0;
+    margin: 45px;
+    flex-direction: column;
 }
 
-.output-calculate span {
-    font-size: 35px;
+.result-calculate {
+    margin-bottom: 1rem;
+    font-size: 34px;
     font-weight: bold;
+    text-align: center;
 }
 
-.output-unit {
+.result-unit {
     font-size: 17px;
+    text-align: center;
 }

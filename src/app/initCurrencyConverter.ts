@@ -25,37 +25,14 @@ export function initCurrencyConverter() {
         'selectExchangeCurrencies'
     );
 
-    const outputBaseCurrencyNode = document.getElementById(
-        'outputBaseCurrency'
+    const outputCalculateResultNode = document.getElementById(
+        'outputCalculateResult'
     );
-    const outputExchangeCurrencyNode = document.getElementById(
-        'outputExchangeCurrency'
-    );
-
-    const outputUnitBaseCurrencyNode = document.getElementById(
-        'outputUnitBaseCurrency'
-    );
-    const outputUnitExchangeCurrencyNode = document.getElementById(
-        'outputUnitExchangeCurrency'
-    );
-
-    const outputBaseRateNode =
-        document.getElementById('outputBaseRate');
-    const outputExchangeRateNode = document.getElementById(
-        'outputExchangeRate'
-    );
-    const outputUnitExchangeRateNode = document.getElementById(
-        'outputUnitExchangeRate'
+    const outputUnitResultNode = document.getElementById(
+        'outputUnitResult'
     );
     const inputMoneyValueNode = <HTMLInputElement>(
         document.getElementById('inputBaseRate')
-    );
-
-    const searchBaseInputNode = <HTMLInputElement>(
-        document.getElementById('searchBaseCurrency')
-    );
-    const searchExchangeInputNode = <HTMLInputElement>(
-        document.getElementById('searchExchangeCurrency')
     );
 
     const selectsNode = document.querySelectorAll(
@@ -88,30 +65,21 @@ export function initCurrencyConverter() {
         hideOutput(outputResultNode);
         startLoadingAnimation(loadingAnimationNode);
 
+        const inputMoneyValue: string = inputMoneyValueNode.value;
+
         const inputBaseCurrency = getCurrencyValueFromSelect(
             selectedBaseCurrencyNode
         );
         const inputExchangeCurrency = getCurrencyValueFromSelect(
             selectedExchangeCurrencyNode
         );
-        addCurrenciesInOutput(
-            outputBaseCurrencyNode,
-            outputUnitBaseCurrencyNode,
-            selectedBaseCurrencyNode
-        );
-        addCurrenciesInOutput(
-            outputExchangeCurrencyNode,
-            outputUnitExchangeCurrencyNode,
-            selectedExchangeCurrencyNode
-        );
 
-        addRatesInOutput({
-            inputRate: inputMoneyValueNode,
-            outputBaseRate: outputBaseRateNode,
-            outputExchangeRate: outputExchangeRateNode,
-            outputUnitExchangeRate: outputUnitExchangeRateNode,
+        addResultInOutput({
+            inputValue: inputMoneyValue,
             inputBaseCurrency,
             inputExchangeCurrency,
+            outputCalculateResult: outputCalculateResultNode,
+            outputUnitResult: outputUnitResultNode,
         }).then(() => {
             finishLoadingAnimation(loadingAnimationNode);
             showOutput(outputResultNode);
@@ -127,49 +95,35 @@ function finishLoadingAnimation(loadingCircle: HTMLElement) {
     loadingCircle.classList.remove('loading');
 }
 
-async function addRatesInOutput({
-    inputRate,
-    outputBaseRate,
-    outputExchangeRate,
-    outputUnitExchangeRate,
+async function addResultInOutput({
+    inputValue,
     inputBaseCurrency,
     inputExchangeCurrency,
+    outputCalculateResult,
+    outputUnitResult,
 }: {
-    inputRate: HTMLInputElement;
-    outputBaseRate: HTMLElement;
-    outputExchangeRate: HTMLElement;
-    outputUnitExchangeRate: HTMLElement;
+    inputValue: string;
     inputBaseCurrency: Currencies;
     inputExchangeCurrency: Currencies;
+    outputCalculateResult: HTMLElement;
+    outputUnitResult: HTMLElement;
 }) {
     await getRates(inputBaseCurrency, inputExchangeCurrency).then(
         (rate) => {
-            outputBaseRate.textContent = inputRate.value;
-
-            const moneyAmountValue = Number(
-                outputBaseRate.textContent
-            );
-
             const exchangeValue = calculateCurrencies(
-                moneyAmountValue,
+                Number(inputValue),
                 rate
-            );
-            const exchangeUnitValue = calculateCurrencies(1, rate);
-            outputExchangeRate.textContent = String(exchangeValue);
-            outputUnitExchangeRate.textContent =
-                String(exchangeUnitValue);
+            ).toFixed(2);
+
+            console.log(exchangeValue);
+
+            const calculateResult = `${inputValue} ${inputBaseCurrency} = ${exchangeValue} ${inputExchangeCurrency}`;
+            const unitResult = `1 ${inputBaseCurrency} = ${rate} ${inputExchangeCurrency}`;
+
+            outputCalculateResult.textContent = calculateResult;
+            outputUnitResult.textContent = unitResult;
         }
     );
-}
-
-function addCurrenciesInOutput(
-    outputCurrency: HTMLElement,
-    outputUnitCurrency: HTMLElement,
-    selectCurrency: HTMLElement
-) {
-    outputCurrency.textContent =
-        getCurrencyValueFromSelect(selectCurrency);
-    outputUnitCurrency.textContent = outputCurrency.textContent;
 }
 
 function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
