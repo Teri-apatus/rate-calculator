@@ -42,16 +42,17 @@
                         >
                             <div class="select-wrapper">
                                 <div
-                                    class="base-currency selection select-container"
+                                    class="base select-container"
                                     tabindex="0"
                                     role="combobox"
                                     aria-expanded="false"
-                                    aria-controls="selectExchangeCurrencies"
+                                    aria-controls="selectBaseCurrencies"
                                     aria-haspopup="listbox"
+                                    id="baseSelectContainer"
                                 >
                                     <div
-                                        class="selected-currency selected-base-currency"
-                                        id="selectedBaseCurrency"
+                                        class="chosen-currency chosen-base-currency"
+                                        id="chosenBaseCurrency"
                                     ></div>
                                     <div class="toggle-container">
                                         <input
@@ -62,7 +63,7 @@
                                             placeholder="Поиск"
                                             autocomplete="off"
                                             aria-label="Поиск"
-                                            aria-controls="selectExchangeCurrencies"
+                                            aria-controls="selectBaseCurrencies"
                                         />
                                         <div
                                             class="select-currencies"
@@ -74,7 +75,7 @@
                                 </div>
                             </div>
                             <button
-                                class="swap-button selection"
+                                class="swap-button"
                                 id="swapButton"
                                 type="button"
                             >
@@ -119,16 +120,17 @@
                             </button>
                             <div class="select-wrapper">
                                 <div
-                                    class="exchange-currency selection select-container"
+                                    class="exchange select-container"
                                     tabindex="0"
                                     role="combobox"
                                     aria-expanded="false"
                                     aria-controls="selectExchangeCurrencies"
                                     aria-haspopup="listbox"
+                                    id="exchangeSelectContainer"
                                 >
                                     <div
-                                        class="selected-currency selected-exchange-currency"
-                                        id="selectedExchangeCurrency"
+                                        class="chosen-currency chosen-exchange-currency"
+                                        id="chosenExchangeCurrency"
                                     ></div>
 
                                     <input

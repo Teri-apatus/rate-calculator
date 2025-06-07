@@ -1,6 +1,6 @@
-import { getLatestRatesFromAPI } from './api';
+import { getLatestRatesFromAPI } from './getLatestRatesFromAPI';
 import { LOCAL_STORAGE_KEY_CURRENCY } from './constants';
-import { isFreshRates } from './freshRates';
+import { isFreshRates } from './isFreshRates';
 import {
     mapFromAPIToLocalStorage,
     saveToLocalStorage,

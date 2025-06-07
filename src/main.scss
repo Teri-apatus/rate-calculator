@@ -232,13 +232,13 @@ h1 {
 }
 
 .open > .select-container {
-    height: calc(
-        var(--option-height-px) * var(--max-visible-select-options)
-    );
-    max-height: calc(var(--option-height-px) * 8);
+    // height: calc(
+    //     var(--option-height-px) * var(--max-visible-select-options)
+    // );
+    height: calc(var(--option-height-px) * 8);
 }
 
-.selected-currency {
+.chosen-currency {
     height: var(--option-height-px);
 }
 
