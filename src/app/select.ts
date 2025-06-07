@@ -1,4 +1,5 @@
 import { CURRENCIES } from './constants';
+import { showCorrectNumber } from './showCorrectNumber';
 import { Currencies, svgContext } from './type';
 
 export function initCurrencySelect(selectContainer: HTMLElement) {
@@ -8,6 +9,8 @@ export function initCurrencySelect(selectContainer: HTMLElement) {
         selectContainer.querySelector('.search-input');
     const selectCurrenciesNode: HTMLElement =
         selectContainer.querySelector('.select-currencies');
+    const selectWrapperNode: HTMLElement =
+        selectContainer.closest('.select-wrapper');
 
     document.addEventListener('keyup', (event) => {
         // console.log(event);
@@ -28,14 +31,15 @@ export function initCurrencySelect(selectContainer: HTMLElement) {
                 initCurrencySearch(searchInputNode.value);
             });
         } else if (eventTarget.closest('.selected-currency')) {
-            selectContainer.classList.toggle('open');
+            selectWrapperNode.classList.toggle('open');
             searchInputNode.value = '';
         }
         setSelectHeight(selectContainer);
     });
 
     function initSelectCurrency(clickedElement: HTMLElement) {
-        selectContainer.classList.add('open');
+        selectWrapperNode.classList.add('open');
+
         const targetOption: HTMLElement = clickedElement.closest(
             '.option-currency'
         );
@@ -46,7 +50,7 @@ export function initCurrencySelect(selectContainer: HTMLElement) {
             selectedCurrencyNode,
             objectClickedCurrency
         );
-        selectContainer.classList.remove('open');
+        selectWrapperNode.classList.remove('open');
 
         searchInputNode.value = '';
         addOptionsToSelect(selectCurrenciesNode, CURRENCIES);
@@ -70,7 +74,7 @@ export function initCurrencySelect(selectContainer: HTMLElement) {
         }
 
         if (!isClickInsideSelect()) {
-            selectContainer.classList.remove('open');
+            selectWrapperNode.classList.remove('open');
             setSelectHeight(selectContainer);
             document.body.removeEventListener('click', onBodyClick);
         }
@@ -148,8 +152,9 @@ export function setSelectHeight(selectContainer: HTMLElement) {
     const options = selectContainer.querySelectorAll(
         '.option-currency'
     );
+    const parent = selectContainer.closest('.select-wrapper');
     const heightOption = options[0].getBoundingClientRect().height;
-    if (!selectContainer.className.includes('open')) {
+    if (!parent.className.includes('open')) {
         selectContainer.style.height = `${heightOption}px`;
     } else {
         const optionsAmount = options.length;

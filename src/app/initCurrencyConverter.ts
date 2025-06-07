@@ -1,5 +1,6 @@
 import { calculateCurrencies } from './calculate';
-import { CURRENCIES } from './constants';
+import { CURRENCIES, THIN_SPACE } from './constants';
+import { showCorrectNumber } from './showCorrectNumber';
 import { getRates } from './getRates';
 import {
     clickSwapButton,
@@ -85,6 +86,12 @@ export function initCurrencyConverter() {
             showOutput(outputResultNode);
         });
     });
+
+    inputMoneyValueNode.addEventListener('input', () => {
+        inputMoneyValueNode.value = showCorrectNumber(
+            inputMoneyValueNode.value
+        );
+    });
 }
 
 function startLoadingAnimation(loadingCircle: HTMLElement) {
@@ -110,15 +117,22 @@ async function addResultInOutput({
 }) {
     await getRates(inputBaseCurrency, inputExchangeCurrency).then(
         (rate) => {
+            const numberOfMoneyAmount = Number(
+                inputValue.split(THIN_SPACE).join('')
+            );
             const exchangeValue = calculateCurrencies(
-                Number(inputValue),
+                numberOfMoneyAmount,
                 rate
-            ).toFixed(2);
+            );
 
-            console.log(exchangeValue);
+            const exchangeValueWithSpaces = showCorrectNumber(
+                `${exchangeValue}`
+            );
 
-            const calculateResult = `${inputValue} ${inputBaseCurrency} = ${exchangeValue} ${inputExchangeCurrency}`;
-            const unitResult = `1 ${inputBaseCurrency} = ${rate} ${inputExchangeCurrency}`;
+            const calculateResult = `${inputValue} ${inputBaseCurrency} = ${exchangeValueWithSpaces} ${inputExchangeCurrency}`;
+            const unitResult = `1 ${inputBaseCurrency} = ${rate.toFixed(
+                4
+            )} ${inputExchangeCurrency}`;
 
             outputCalculateResult.textContent = calculateResult;
             outputUnitResult.textContent = unitResult;
