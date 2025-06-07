@@ -13,18 +13,20 @@
         <title>Конвертер валют</title>
     </head>
     <body>
-        <main>
-            <div class="container">
+        <main class="container">
+            <form class="calc-form" name="calcForm">
                 <h1>конвертер валют</h1>
-                <form class="calc-form" name="calcForm">
-                    <div class="calc-row">
+                <div class="input-container">
+                    <div class="input-number input-row">
                         <div class="text">Сумма</div>
-                        <div class="f-right">
+                        <div class="interactive-container">
                             <input
-                                type="number"
-                                aria-label="Input currency"
+                                type="text"
                                 inputmode="decimal"
+                                title="Ввод суммы"
+                                aria-label="Input currency"
                                 value="1"
+                                placeholder="0.00"
                                 class="input-base-rate"
                                 id="inputBaseRate"
                                 autocomplete="off"
@@ -33,9 +35,11 @@
                         </div>
                     </div>
 
-                    <div class="calc-row">
+                    <div class="input-currency input-row">
                         <div class="text">Направление перевода</div>
-                        <div class="currency-selection f-right">
+                        <div
+                            class="currency-selection interactive-container"
+                        >
                             <div class="select-wrapper">
                                 <div
                                     class="base-currency selection select-container"
@@ -72,6 +76,7 @@
                             <button
                                 class="swap-button selection"
                                 id="swapButton"
+                                type="button"
                             >
                                 <svg
                                     width="1.5em"
@@ -146,51 +151,33 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="calc-row button-container">
-                        <button class="calc-button" id="calcInput">
-                            Рассчитать
-                        </button>
-                    </div>
+                <button class="calc-button" id="calcInput">
+                    Рассчитать
+                </button>
 
-                    <div class="output-container">
+                <div class="output-container">
+                    <div
+                        class="load-animation"
+                        id="loadAnimation"
+                    ></div>
+
+                    <div
+                        class="result-container"
+                        id="resultContainer"
+                    >
                         <div
-                            class="load-animation"
-                            id="loadAnimation"
+                            class="result-calculate"
+                            id="outputCalculateResult"
                         ></div>
                         <div
-                            class="result-container"
-                            id="resultContainer"
-                        >
-                            <div
-                                class="output-calculate calc-row"
-                                id="outputContainer"
-                            >
-                                <span id="outputBaseRate"></span>
-                                <span id="outputBaseCurrency"></span>
-                                <span>=</span>
-                                <span id="outputExchangeRate"></span>
-                                <span
-                                    id="outputExchangeCurrency"
-                                ></span>
-                            </div>
-                            <div class="output-unit calc-row">
-                                <span>1</span>
-                                <span
-                                    id="outputUnitBaseCurrency"
-                                ></span>
-                                <span>=</span>
-                                <span
-                                    id="outputUnitExchangeRate"
-                                ></span>
-                                <span
-                                    id="outputUnitExchangeCurrency"
-                                ></span>
-                            </div>
-                        </div>
+                            class="result-unit"
+                            id="outputUnitResult"
+                        ></div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </main>
     </body>
 </html>
