@@ -10,29 +10,20 @@ import {
 export function getLatestRatesFromAPI(
     currency: string
 ): Promise<RateResponse> {
-    // const promise = fetch(
-    //     `${BASE_API_URL}/latest?base=${currency}&api_key=${API_KEY}`
-    // )
-    //     .then((response) => {
-    //         if (!response.ok) {
-    //             throw new Error('Error occurred!');
-    //         }
+    const promise = fetch(
+        `${BASE_API_URL}/latest?base=${currency}&api_key=${API_KEY}`
+    )
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Error occurred!');
+            }
 
-    //         return response.json();
-    //     })
+            return response.json();
+        })
 
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
-
-    const promise = new Promise<RateResponse>(function (
-        resolve,
-        reject
-    ) {
-        setTimeout(() => {
-            resolve(mockData as RateResponse);
-        }, 1000);
-    });
+        .catch((err) => {
+            console.log(err);
+        });
 
     return promise;
 }
