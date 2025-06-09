@@ -62,18 +62,6 @@ module.exports = {
                             source: path.join('src', 'static'),
                             destination: 'dist',
                         },
-                        // {
-                        //     source: path.join(
-                        //         'src',
-                        //         'images',
-                        //         'icons'
-                        //     ),
-                        //     destination: path.join(
-                        //         'dist',
-                        //         'images',
-                        //         'icons'
-                        //     ),
-                        // },
                     ],
                 },
             },

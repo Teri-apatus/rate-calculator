@@ -9,87 +9,169 @@ import {
 export function initCustomSelect(selectContainer: HTMLElement) {
     const chosenCurrencyNode: HTMLElement =
         selectContainer.querySelector('.chosen-currency');
+    const toggleSelectNode: HTMLElement =
+        selectContainer.querySelector('.toggle-container');
     const searchInputNode: HTMLInputElement =
         selectContainer.querySelector('.search-input');
     const selectCurrenciesNode: HTMLElement =
         selectContainer.querySelector('.select-currencies');
-    const selectWrapperNode: HTMLElement =
-        selectContainer.closest('.select-wrapper');
 
-    document.body.addEventListener('keyup', (event) => {
-        // event.preventDefault();
-        // console.log('event', event);
-        // console.log('active', document.activeElement);
-        // console.log('target', event.target);
-        // console.log('curr', event.currentTarget);
+    selectContainer.addEventListener('keydown', (event) => {
+        debugger;
+        const currActiveElement = <HTMLElement>document.activeElement;
+        if (!selectContainer.contains(currActiveElement)) return;
+        switch (event.code) {
+            case 'Enter': {
+                openSelect();
+                break;
+            }
+            case 'Escape': {
+                if (selectContainer.classList.contains('open')) {
+                    closeSelect(selectContainer);
+                } else {
+                    selectContainer.blur();
+                }
+                break;
+            }
+            case 'Space': {
+                openSelect();
+                break;
+            }
+            case 'ArrowUp': {
+                event.preventDefault();
+                if (
+                    currActiveElement ===
+                    selectCurrenciesNode.firstElementChild
+                ) {
+                    const prevFocusableEl = <HTMLElement>(
+                        selectCurrenciesNode.previousElementSibling
+                    );
+                    prevFocusableEl.focus();
+                } else if (currActiveElement === searchInputNode) {
+                    closeSelect(selectContainer);
+                } else {
+                    const prevOption = <HTMLElement>(
+                        currActiveElement.previousElementSibling
+                    );
+                    prevOption.scrollIntoView({
+                        block: 'center',
+                    });
+                    prevOption.focus();
+                }
+
+                break;
+            }
+            case 'ArrowDown': {
+                event.preventDefault();
+                if (currActiveElement === searchInputNode) {
+                    const nextFocusableEl = <HTMLElement>(
+                        searchInputNode.nextElementSibling
+                            .firstElementChild
+                    );
+                    nextFocusableEl.focus();
+                } else if (
+                    currActiveElement ===
+                    selectCurrenciesNode.lastElementChild
+                ) {
+                    (<HTMLElement>(
+                        selectCurrenciesNode.firstElementChild
+                    )).focus();
+                } else {
+                    const nextOption = <HTMLElement>(
+                        currActiveElement.nextElementSibling
+                    );
+                    nextOption.scrollIntoView({
+                        block: 'center',
+                    });
+                    nextOption.focus();
+                }
+                break;
+            }
+        }
     });
 
     selectContainer.addEventListener('click', (event) => {
+        event.stopPropagation();
+
+        const currentOpenedSelect: HTMLElement =
+            document.querySelector('.open') || null;
         const eventTarget = <HTMLElement>event.target;
 
-        if (!eventTarget.closest(selectContainer.classList[0])) {
-            document.body.addEventListener('click', onBodyClick);
+        if (
+            currentOpenedSelect &&
+            currentOpenedSelect !== eventTarget.closest('.open')
+        ) {
+            closeSelect(currentOpenedSelect);
+            openSelect();
+            return;
         }
 
-        if (eventTarget.closest('.select-currencies')) {
-            onSelectClick(eventTarget);
-        } else if (eventTarget === searchInputNode) {
-            searchInputNode.addEventListener(
-                'input',
-                onSearchCurrencyInput
-            );
-        } else if (eventTarget.closest('.chosen-currency')) {
-            selectWrapperNode.classList.toggle('open');
+        if (selectContainer.classList.contains('open')) {
+            if (eventTarget.closest('.chosen-currency')) {
+                closeSelect(selectContainer);
+            } else if (eventTarget.closest('.select-currencies')) {
+                handleSelectOption(eventTarget);
+            } else if (eventTarget === searchInputNode) {
+                searchInputNode.addEventListener(
+                    'input',
+                    onSearchInput
+                );
+            }
+        } else {
+            openSelect();
         }
-        clearSearchField();
     });
 
-    function onSelectClick(clickedElement: HTMLElement) {
-        selectWrapperNode.classList.add('open');
+    document.body.addEventListener('click', onBodyClick);
 
-        const optionTarget: HTMLElement = clickedElement.closest(
+    function openSelect() {
+        selectContainer.classList.add('open');
+        createCustomSelect(selectCurrenciesNode, CURRENCIES);
+        searchInputNode.focus();
+    }
+
+    function closeSelect(select: HTMLElement) {
+        const toggleSelect: HTMLElement = select.querySelector(
+            '.toggle-container'
+        );
+        const searchInput: HTMLInputElement =
+            select.querySelector('.search-input');
+        toggleSelectNode;
+        select.classList.remove('open');
+        toggleSelect.style.height = '';
+        searchInput.value = '';
+        searchInput.removeEventListener('input', onSearchInput);
+    }
+
+    function onSearchInput(event: MouseEvent) {
+        debugger;
+        const eventTarget = <HTMLInputElement>event.target;
+        const requiredCurrencies = filterCurrencies(
+            eventTarget.value.toLowerCase()
+        );
+        createCustomSelect(selectCurrenciesNode, requiredCurrencies);
+        setHeightOfContainerWhenFiltering(toggleSelectNode);
+    }
+
+    function handleSelectOption(clickedElement: HTMLElement) {
+        const optionTarget = clickedElement.closest(
             '.option-currency'
         );
         const objectClickedCurrency = extractCurrencyFromClicked(
             optionTarget.textContent
         );
         createCustomSelect(chosenCurrencyNode, objectClickedCurrency);
-        selectWrapperNode.classList.remove('open');
-    }
-
-    function onSearchCurrencyInput(event: MouseEvent) {
-        const requiredCurrencies = filterCurrencies(
-            searchInputNode.value.toLowerCase()
-        );
-        createCustomSelect(selectCurrenciesNode, requiredCurrencies);
-        setSelectHeight(selectContainer);
+        closeSelect(selectContainer);
     }
 
     function onBodyClick(event: MouseEvent) {
-        function isClickInsideSelect(): boolean {
-            return Boolean(
-                (<HTMLElement>event.target).closest(
-                    `.${selectContainer.classList[0]}`
-                )
-            );
-        }
+        const eventTarget = <HTMLElement>event.target;
 
-        if (!isClickInsideSelect()) {
-            selectWrapperNode.classList.remove('open');
-            clearSearchField();
-            event.target.removeEventListener(event.type, onBodyClick);
-        }
-    }
-
-    function clearSearchField() {
-        if (!selectWrapperNode.classList.contains('open')) {
-            searchInputNode.value = '';
-            createCustomSelect(selectCurrenciesNode, CURRENCIES);
-            setSelectHeight(selectContainer);
-            searchInputNode.removeEventListener(
-                'input',
-                onSearchCurrencyInput
-            );
+        if (
+            !eventTarget.closest('.open') &&
+            selectContainer.classList.contains('open')
+        ) {
+            closeSelect(selectContainer);
         }
     }
 }
@@ -102,35 +184,38 @@ function extractCurrencyFromClicked(textFromClicked: string): {
     };
 }
 
-function setSelectHeight(selectContainer: HTMLElement) {
-    const optionsAmount = selectContainer.querySelectorAll(
+function setHeightOfContainerWhenFiltering(
+    toggleSelect: HTMLElement
+) {
+    const optionsAmount = toggleSelect.querySelectorAll(
         '.option-currency'
     ).length;
     const OPTION_HEIGHT = 40;
 
     if (optionsAmount < 6) {
-        selectContainer.style.height = `${
+        toggleSelect.style.height = `${
             OPTION_HEIGHT * (optionsAmount + 1)
         }px`;
     } else {
-        selectContainer.style.height = '';
+        toggleSelect.style.height = '';
     }
 }
 
 export function clickSwapButton() {
-    swapButtonNode.addEventListener('click', onSwapButtonClick);
-}
+    swapButtonNode.addEventListener(
+        'click',
+        (event) => {
+            event.preventDefault();
+            const textBase = chosenBaseNode.textContent;
+            const textExchange = chosenExchangeNode.textContent;
+            const objBase = extractCurrencyFromClicked(textBase);
+            const objExch = extractCurrencyFromClicked(textExchange);
 
-function onSwapButtonClick(event: MouseEvent) {
-    event.preventDefault();
-    const textBase = chosenBaseNode.textContent;
-    const textExchange = chosenExchangeNode.textContent;
-    const objBase = extractCurrencyFromClicked(textBase);
-    const objExch = extractCurrencyFromClicked(textExchange);
-
-    createCustomSelect(chosenBaseNode, objExch);
-    createCustomSelect(chosenExchangeNode, objBase);
-    event.target.removeEventListener(event.type, onSwapButtonClick);
+            createCustomSelect(chosenBaseNode, objExch);
+            createCustomSelect(chosenExchangeNode, objBase);
+        },
+        { once: true }
+    );
 }
 
 function filterCurrencies(inputValue: string): object {
