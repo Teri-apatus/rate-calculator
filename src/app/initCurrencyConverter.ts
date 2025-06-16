@@ -62,7 +62,6 @@ function calculateCurrencies(event: MouseEvent) {
         finishLoadingAnimation(loadingAnimationNode);
         showOutput(outputContainerNode);
     });
-    event.target.removeEventListener(event.type, calculateCurrencies);
 }
 
 function startLoadingAnimation(loadingCircle: HTMLElement) {
@@ -97,9 +96,7 @@ async function addResultInOutput({
             );
 
             const calculateResult = `${inputValue} ${inputBaseCurrency} = ${exchangeValueWithSpaces} ${inputExchangeCurrency}`;
-            const unitResult = `1 ${inputBaseCurrency} = ${rate.toFixed(
-                4
-            )} ${inputExchangeCurrency}`;
+            const unitResult = `1 ${inputBaseCurrency} = ${rate} ${inputExchangeCurrency}`;
 
             outputCalculateResult.textContent = calculateResult;
             outputUnitResult.textContent = unitResult;
