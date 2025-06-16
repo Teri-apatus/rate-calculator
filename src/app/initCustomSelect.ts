@@ -17,7 +17,6 @@ export function initCustomSelect(selectContainer: HTMLElement) {
         selectContainer.querySelector('.select-currencies');
 
     selectContainer.addEventListener('keydown', (event) => {
-        debugger;
         const currActiveElement = <HTMLElement>document.activeElement;
         if (!selectContainer.contains(currActiveElement)) return;
         switch (event.code) {
@@ -140,11 +139,9 @@ export function initCustomSelect(selectContainer: HTMLElement) {
         select.classList.remove('open');
         toggleSelect.style.height = '';
         searchInput.value = '';
-        searchInput.removeEventListener('input', onSearchInput);
     }
 
     function onSearchInput(event: MouseEvent) {
-        debugger;
         const eventTarget = <HTMLInputElement>event.target;
         const requiredCurrencies = filterCurrencies(
             eventTarget.value.toLowerCase()
@@ -202,20 +199,16 @@ function setHeightOfContainerWhenFiltering(
 }
 
 export function clickSwapButton() {
-    swapButtonNode.addEventListener(
-        'click',
-        (event) => {
-            event.preventDefault();
-            const textBase = chosenBaseNode.textContent;
-            const textExchange = chosenExchangeNode.textContent;
-            const objBase = extractCurrencyFromClicked(textBase);
-            const objExch = extractCurrencyFromClicked(textExchange);
+    swapButtonNode.addEventListener('click', (event) => {
+        event.preventDefault();
+        const textBase = chosenBaseNode.textContent;
+        const textExchange = chosenExchangeNode.textContent;
+        const objBase = extractCurrencyFromClicked(textBase);
+        const objExch = extractCurrencyFromClicked(textExchange);
 
-            createCustomSelect(chosenBaseNode, objExch);
-            createCustomSelect(chosenExchangeNode, objBase);
-        },
-        { once: true }
-    );
+        createCustomSelect(chosenBaseNode, objExch);
+        createCustomSelect(chosenExchangeNode, objBase);
+    });
 }
 
 function filterCurrencies(inputValue: string): object {
