@@ -1,97 +1,68 @@
-import { calculateCurrencies } from './calculate';
 import { CURRENCIES, THIN_SPACE } from './constants';
 import { showCorrectNumber } from './showCorrectNumber';
 import { getRates } from './getRates';
 import {
     clickSwapButton,
-    fillCurrencySelects,
-    initCurrencySelect,
-} from './select';
+    initCustomSelect,
+} from './initCustomSelect';
 import { Currencies } from './type';
+import {
+    baseContainerNode,
+    baseSelectNode,
+    calcButtonNode,
+    exchangeContainerNode,
+    exchangeSelectNode,
+    inputValueNode,
+    loadingAnimationNode,
+    outputCalculateNode,
+    outputContainerNode,
+    outputUnitNode,
+    chosenBaseNode,
+    chosenExchangeNode,
+} from './htmlElements';
+import { fillCurrencySelects } from './createCustomSelect';
 
 export function initCurrencyConverter() {
-    const calcButtonNode = document.getElementById('calcInput');
+    initCustomSelect(baseContainerNode);
+    initCustomSelect(exchangeContainerNode);
+    fillCurrencySelects([baseSelectNode, exchangeSelectNode]);
+    clickSwapButton();
 
-    const selectedBaseCurrencyNode = document.getElementById(
-        'selectedBaseCurrency'
-    );
-    const selectedExchangeCurrencyNode = document.getElementById(
-        'selectedExchangeCurrency'
-    );
+    calcButtonNode.addEventListener('click', calculateCurrencies);
 
-    const baseCurrencySelectNode = document.getElementById(
-        'selectBaseCurrencies'
-    );
-    const exchangeCurrencySelectNode = document.getElementById(
-        'selectExchangeCurrencies'
-    );
-
-    const outputCalculateResultNode = document.getElementById(
-        'outputCalculateResult'
-    );
-    const outputUnitResultNode = document.getElementById(
-        'outputUnitResult'
-    );
-    const inputMoneyValueNode = <HTMLInputElement>(
-        document.getElementById('inputBaseRate')
-    );
-
-    const selectsNode = document.querySelectorAll(
-        '.select-container'
-    );
-
-    selectsNode.forEach((selectNode: HTMLElement) =>
-        initCurrencySelect(selectNode)
-    );
-
-    const outputResultNode: HTMLElement =
-        document.getElementById('resultContainer');
-
-    const loadingAnimationNode =
-        document.getElementById('loadAnimation');
-
-    fillCurrencySelects([
-        baseCurrencySelectNode,
-        exchangeCurrencySelectNode,
-    ]);
-
-    clickSwapButton(
-        selectedBaseCurrencyNode,
-        selectedExchangeCurrencyNode
-    );
-
-    calcButtonNode.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        hideOutput(outputResultNode);
-        startLoadingAnimation(loadingAnimationNode);
-
-        const inputMoneyValue: string = inputMoneyValueNode.value;
-
-        const inputBaseCurrency = getCurrencyValueFromSelect(
-            selectedBaseCurrencyNode
-        );
-        const inputExchangeCurrency = getCurrencyValueFromSelect(
-            selectedExchangeCurrencyNode
-        );
-
-        addResultInOutput({
-            inputValue: inputMoneyValue,
-            inputBaseCurrency,
-            inputExchangeCurrency,
-            outputCalculateResult: outputCalculateResultNode,
-            outputUnitResult: outputUnitResultNode,
-        }).then(() => {
-            finishLoadingAnimation(loadingAnimationNode);
-            showOutput(outputResultNode);
-        });
-    });
-
-    inputMoneyValueNode.addEventListener('input', () => {
-        inputMoneyValueNode.value = showCorrectNumber(
-            inputMoneyValueNode.value
+    inputValueNode.addEventListener('input', () => {
+        inputValueNode.value = showCorrectNumber(
+            inputValueNode.value
         );
     });
+}
+
+function calculateCurrencies(event: MouseEvent) {
+    event.preventDefault();
+
+    hideOutput(outputContainerNode);
+    startLoadingAnimation(loadingAnimationNode);
+
+    const inputMoneyValue: string = inputValueNode.value;
+
+    const inputBaseCurrency = getCurrencyValueFromSelect(
+        chosenBaseNode.textContent
+    );
+    const inputExchangeCurrency = getCurrencyValueFromSelect(
+        chosenExchangeNode.textContent
+    );
+
+    addResultInOutput({
+        inputValue: inputMoneyValue,
+        inputBaseCurrency,
+        inputExchangeCurrency,
+        outputCalculateResult: outputCalculateNode,
+        outputUnitResult: outputUnitNode,
+    }).then(() => {
+        finishLoadingAnimation(loadingAnimationNode);
+        showOutput(outputContainerNode);
+    });
+    event.target.removeEventListener(event.type, calculateCurrencies);
 }
 
 function startLoadingAnimation(loadingCircle: HTMLElement) {
@@ -120,11 +91,7 @@ async function addResultInOutput({
             const numberOfMoneyAmount = Number(
                 inputValue.split(THIN_SPACE).join('')
             );
-            const exchangeValue = calculateCurrencies(
-                numberOfMoneyAmount,
-                rate
-            );
-
+            const exchangeValue = numberOfMoneyAmount * rate;
             const exchangeValueWithSpaces = showCorrectNumber(
                 `${exchangeValue}`
             );
@@ -140,8 +107,8 @@ async function addResultInOutput({
     );
 }
 
-function getCurrencyValueFromSelect(select: HTMLElement): Currencies {
-    const currencyValue = select.textContent.slice(0, 3);
+function getCurrencyValueFromSelect(textSelect: string): Currencies {
+    const currencyValue = textSelect.slice(0, 3);
     if (currencyValue in CURRENCIES) {
         return currencyValue as Currencies;
     }

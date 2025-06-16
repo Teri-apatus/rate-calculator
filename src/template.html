@@ -40,41 +40,41 @@
                         <div
                             class="currency-selection interactive-container"
                         >
-                            <div class="select-wrapper">
+                            <div
+                                class="base select-container"
+                                role="combobox"
+                                aria-expanded="false"
+                                aria-controls="selectBaseCurrencies"
+                                aria-haspopup="listbox"
+                                id="baseSelectContainer"
+                                tabindex="0"
+                            >
                                 <div
-                                    class="base-currency selection select-container"
-                                    tabindex="0"
-                                    role="combobox"
-                                    aria-expanded="false"
-                                    aria-controls="selectExchangeCurrencies"
-                                    aria-haspopup="listbox"
-                                >
+                                    class="chosen-currency chosen-base-currency"
+                                    id="chosenBaseCurrency"
+                                ></div>
+                                <div class="toggle-container">
+                                    <input
+                                        type="search"
+                                        name="search-base-currency"
+                                        class="search-input"
+                                        id="searchBaseCurrency"
+                                        placeholder="Поиск"
+                                        autocomplete="off"
+                                        aria-label="Поиск"
+                                        aria-controls="selectBaseCurrencies"
+                                    />
                                     <div
-                                        class="selected-currency selected-base-currency"
-                                        id="selectedBaseCurrency"
+                                        class="select-currencies"
+                                        id="selectBaseCurrencies"
+                                        role="listbox"
+                                        aria-label="Выбор исходной валюты"
                                     ></div>
-                                    <div class="toggle-container">
-                                        <input
-                                            type="search"
-                                            name="search-base-currency"
-                                            class="search-input"
-                                            id="searchBaseCurrency"
-                                            placeholder="Поиск"
-                                            autocomplete="off"
-                                            aria-label="Поиск"
-                                            aria-controls="selectExchangeCurrencies"
-                                        />
-                                        <div
-                                            class="select-currencies"
-                                            id="selectBaseCurrencies"
-                                            role="listbox"
-                                            aria-label="Выбор исходной валюты"
-                                        ></div>
-                                    </div>
                                 </div>
                             </div>
+
                             <button
-                                class="swap-button selection"
+                                class="swap-button"
                                 id="swapButton"
                                 type="button"
                             >
@@ -117,20 +117,21 @@
                                     </g>
                                 </svg>
                             </button>
-                            <div class="select-wrapper">
-                                <div
-                                    class="exchange-currency selection select-container"
-                                    tabindex="0"
-                                    role="combobox"
-                                    aria-expanded="false"
-                                    aria-controls="selectExchangeCurrencies"
-                                    aria-haspopup="listbox"
-                                >
-                                    <div
-                                        class="selected-currency selected-exchange-currency"
-                                        id="selectedExchangeCurrency"
-                                    ></div>
 
+                            <div
+                                class="exchange select-container"
+                                role="combobox"
+                                aria-expanded="false"
+                                aria-controls="selectExchangeCurrencies"
+                                aria-haspopup="listbox"
+                                id="exchangeSelectContainer"
+                                tabindex="0"
+                            >
+                                <div
+                                    class="chosen-currency chosen-exchange-currency"
+                                    id="chosenExchangeCurrency"
+                                ></div>
+                                <div class="toggle-container">
                                     <input
                                         type="search"
                                         name="search-exchange-currency"
